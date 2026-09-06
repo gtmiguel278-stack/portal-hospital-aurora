@@ -90,22 +90,50 @@ function setUser(user) {
 // Navegação
 document.querySelectorAll(".nav-item").forEach(button => {
   button.addEventListener("click", () => {
+
     const section = button.dataset.section;
 
-    document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
+    // PROTEÇÃO DA ÁREA DA GESTÃO
+    if (section === "management" && !managementAccess) {
+
+      alert(
+        "🔒 ÁREA RESTRITA\n\n" +
+        "O Painel da Gestão é exclusivo para:\n\n" +
+        "👑 Diretor\n" +
+        "👑 Vice-diretor\n" +
+        "👑 Supervisão\n\n" +
+        "A verificação automática será feita pelo Discord."
+      );
+
+      return;
+    }
+
+    // Remove o botão ativo anterior
+    document.querySelectorAll(".nav-item").forEach(b =>
+      b.classList.remove("active")
+    );
+
+    // Ativa o botão clicado
     button.classList.add("active");
 
-    document.querySelectorAll(".content-section").forEach(s => s.classList.remove("active-section"));
+    // Esconde todas as páginas
+    document.querySelectorAll(".content-section").forEach(s =>
+      s.classList.remove("active-section")
+    );
+
+    // Mostra a página selecionada
     document.getElementById(section).classList.add("active-section");
 
     const titles = {
       dashboard: "Olá, " + demoUser.name + " 👋",
       hours: "Minhas Horas",
       hospital: "Meu Hospital",
-      info: "Informações"
+      info: "Informações",
+      management: "Painel da Gestão 👑"
     };
 
     document.getElementById("pageTitle").textContent = titles[section];
+
   });
 });
 
@@ -191,3 +219,21 @@ if (hospitalFilter) {
 if (statusFilter) {
   statusFilter.addEventListener("change", filterEmployees);
 }
+
+// ========================================
+// CONTROLE DE ACESSO À GESTÃO
+// ========================================
+
+// Modo demonstração
+// Futuramente será substituído pela
+// verificação dos cargos do Discord.
+
+const managementRoles = [
+  "Diretor",
+  "Vice-diretor",
+  "Supervisão"
+];
+
+let managementAccess = false;
+
+
