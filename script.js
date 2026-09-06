@@ -129,3 +129,65 @@ document.getElementById("logoutButton").addEventListener("click", () => {
 // Inicialização
 setUser(demoUser);
 updateDashboard();
+
+// ========================================
+// PAINEL DA GESTÃO - FILTROS
+// ========================================
+
+const employeeSearch = document.getElementById("employeeSearch");
+const hospitalFilter = document.getElementById("hospitalFilter");
+const statusFilter = document.getElementById("statusFilter");
+
+function filterEmployees() {
+  const employees = document.querySelectorAll(".employee-data");
+
+  const searchValue = employeeSearch
+    ? employeeSearch.value.toLowerCase()
+    : "";
+
+  const hospitalValue = hospitalFilter
+    ? hospitalFilter.value
+    : "all";
+
+  const statusValue = statusFilter
+    ? statusFilter.value
+    : "all";
+
+  employees.forEach((employee) => {
+    const name = employee.dataset.name.toLowerCase();
+    const hospital = employee.dataset.hospital;
+    const status = employee.dataset.status;
+
+    const matchesSearch = name.includes(searchValue);
+
+    const matchesHospital =
+      hospitalValue === "all" ||
+      hospital === hospitalValue;
+
+    const matchesStatus =
+      statusValue === "all" ||
+      status === statusValue;
+
+    if (
+      matchesSearch &&
+      matchesHospital &&
+      matchesStatus
+    ) {
+      employee.style.display = "grid";
+    } else {
+      employee.style.display = "none";
+    }
+  });
+}
+
+if (employeeSearch) {
+  employeeSearch.addEventListener("input", filterEmployees);
+}
+
+if (hospitalFilter) {
+  hospitalFilter.addEventListener("change", filterEmployees);
+}
+
+if (statusFilter) {
+  statusFilter.addEventListener("change", filterEmployees);
+}
