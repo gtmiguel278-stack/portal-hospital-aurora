@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Aurora | Portal do Colaborador</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="background-glow glow-blue"></div>
+  <div class="background-glow glow-orange"></div>
+
+  <!-- LOGIN / LANDING -->
+  <section id="loginScreen" class="screen active">
+    <div class="landing-card">
+      <img src="logo-aurora.png" class="logo" alt="Hospital Aurora Capital North">
+
+      <div class="hero-content">
+        <span class="eyebrow">PORTAL OFICIAL DO COLABORADOR</span>
+        <h1>Hospital Aurora</h1>
+        <p>Capital & North unidos em um único portal.</p>
+
+        <div class="hospitals-preview">
+          <div class="hospital-card capital">
+            <div class="hospital-icon">🏥</div>
+            <div>
+              <strong>Aurora Capital</strong>
+              <span>Unidade Capital</span>
+            </div>
+          </div>
+
+          <div class="hospital-card north">
+            <div class="hospital-icon">🏥</div>
+            <div>
+              <strong>Aurora North</strong>
+              <span>Unidade North</span>
+            </div>
+          </div>
+        </div>
+
+        <button id="discordLogin" class="discord-button">
+          <span class="discord-symbol">✦</span>
+          Entrar com Discord
+        </button>
+
+        <p class="login-note">
+          Seu hospital e cargo serão sincronizados automaticamente com o Discord.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTAL -->
+  <section id="portalScreen" class="portal-screen">
+
+    <aside class="sidebar">
+      <div class="brand-mini">
+        <img src="logo-aurora.png" alt="Hospital Aurora">
+      </div>
+
+      <nav>
+        <button class="nav-item active" data-section="dashboard">⌂ <span>Início</span></button>
+        <button class="nav-item" data-section="hours">◷ <span>Minhas Horas</span></button>
+        <button class="nav-item" data-section="hospital">✚ <span>Meu Hospital</span></button>
+        <button class="nav-item" data-section="info">ⓘ <span>Informações</span></button>
+      </nav>
+
+      <button id="logoutButton" class="logout">↪ <span>Sair</span></button>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="welcome-small">PORTAL DO COLABORADOR</p>
+          <h2 id="pageTitle">Olá, Colaborador 👋</h2>
+        </div>
+
+        <div class="profile-mini">
+          <div class="online-dot"></div>
+          <div class="avatar">L</div>
+          <div>
+            <strong id="topName">Lucas</strong>
+            <small>Discord conectado</small>
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <div id="dashboard" class="content-section active-section">
+        <div class="dashboard-grid">
+
+          <article class="info-card profile-card">
+            <div class="card-label">MEU PERFIL</div>
+            <div class="profile-main">
+              <div class="big-avatar">L</div>
+              <div>
+                <h3 id="userName">Lucas</h3>
+                <p id="discordName">@discord</p>
+              </div>
+            </div>
+            <div class="profile-details">
+              <div>
+                <span>🏥 Hospital</span>
+                <strong id="hospitalName">Aurora Capital</strong>
+              </div>
+              <div>
+                <span>🎖 Cargo</span>
+                <strong id="roleName">Médico</strong>
+              </div>
+            </div>
+          </article>
+
+          <article class="info-card hours-card">
+            <div class="card-label">CARGA HORÁRIA SEMANAL</div>
+
+            <div class="hours-number">
+              <strong id="hoursValue">0h 00min</strong>
+              <span>/ 15 horas</span>
+            </div>
+
+            <div class="progress-track">
+              <div id="progressBar" class="progress-fill"></div>
+            </div>
+
+            <div class="progress-info">
+              <span id="progressText">0% concluído</span>
+              <strong id="remainingText">Faltam 15h 00min</strong>
+            </div>
+
+            <div id="statusBox" class="status-box pending">
+              ⏳ Meta semanal em andamento
+            </div>
+          </article>
+
+          <article class="info-card hospital-status">
+            <div class="card-label">UNIDADE ATUAL</div>
+            <div class="hospital-status-content">
+              <div class="unit-symbol">✚</div>
+              <div>
+                <h3 id="unitTitle">Aurora Capital</h3>
+                <p id="unitDescription">Você faz parte da unidade Capital.</p>
+              </div>
+            </div>
+            <div class="sync-badge">● Sincronizado com Discord</div>
+          </article>
+
+        </div>
+
+        <section class="weekly-section">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">DESEMPENHO</span>
+              <h3>Resumo da Semana</h3>
+            </div>
+            <span class="week-badge">Meta: 15 horas</span>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat">
+              <span>Horas registradas</span>
+              <strong id="statHours">0h 00min</strong>
+            </div>
+            <div class="stat">
+              <span>Horas restantes</span>
+              <strong id="statRemaining">15h 00min</strong>
+            </div>
+            <div class="stat">
+              <span>Meta semanal</span>
+              <strong>15h 00min</strong>
+            </div>
+            <div class="stat">
+              <span>Status</span>
+              <strong id="statStatus">Em andamento</strong>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- HOURS -->
+      <div id="hours" class="content-section">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">CONTROLE</span>
+            <h3>Minhas Horas Semanais</h3>
+          </div>
+          <span class="week-badge">Meta: 15 horas</span>
+        </div>
+
+        <div class="hours-page-card">
+          <div class="large-progress">
+            <div class="circle-progress" id="circleProgress">
+              <div class="circle-inner">
+                <strong id="circlePercent">0%</strong>
+                <span>concluído</span>
+              </div>
+            </div>
+
+            <div>
+              <h3 id="hoursLarge">0h 00min</h3>
+              <p>registradas nesta semana</p>
+              <div id="hoursStatus" class="status-box pending">⏳ Você ainda está cumprindo sua meta semanal.</div>
+            </div>
+          </div>
+
+          <div class="demo-controls">
+            <p><strong>Modo demonstração:</strong> use os botões abaixo para visualizar o funcionamento do painel.</p>
+            <div class="control-buttons">
+              <button onclick="changeHours(-60)">− 1 hora</button>
+              <button onclick="changeHours(-30)">− 30 min</button>
+              <button onclick="changeHours(30)">+ 30 min</button>
+              <button onclick="changeHours(60)">+ 1 hora</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HOSPITAL -->
+      <div id="hospital" class="content-section">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">UNIDADE</span>
+            <h3>Meu Hospital</h3>
+          </div>
+        </div>
+
+        <div class="unit-page-card">
+          <div class="unit-hero">
+            <div class="unit-symbol large">✚</div>
+            <div>
+              <span>UNIDADE VINCULADA</span>
+              <h2 id="hospitalPageName">Aurora Capital</h2>
+              <p id="hospitalPageText">Seu hospital é identificado automaticamente através da sua integração com o Discord.</p>
+            </div>
+          </div>
+
+          <div class="sync-info">
+            <h3>🔄 Sincronização automática</h3>
+            <p>Quando o sistema estiver conectado ao Discord, mudanças de hospital e cargo serão refletidas automaticamente no portal, sem necessidade de alteração manual.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div id="info" class="content-section">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">HOSPITAL AURORA</span>
+            <h3>Informações do Portal</h3>
+          </div>
+        </div>
+
+        <div class="info-page-grid">
+          <article>
+            <span>🏥</span>
+            <h3>Aurora Capital</h3>
+            <p>Unidade integrante do Hospital Aurora.</p>
+          </article>
+          <article>
+            <span>🏥</span>
+            <h3>Aurora North</h3>
+            <p>Unidade integrante do Hospital Aurora.</p>
+          </article>
+          <article>
+            <span>⏱️</span>
+            <h3>15 horas semanais</h3>
+            <p>Carga horária semanal definida para acompanhamento dos colaboradores.</p>
+          </article>
+          <article>
+            <span>🔄</span>
+            <h3>Discord</h3>
+            <p>Hospital e cargo preparados para sincronização automática.</p>
+          </article>
+        </div>
+      </div>
+
+    </main>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
