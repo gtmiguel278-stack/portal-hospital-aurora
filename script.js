@@ -17,10 +17,10 @@ const WEEKLY_GOAL = 15 * 60; // 15 horas em minutos
 let workedMinutes = 0;
 
 const demoUser = {
-  name: "Lucas",
-  discord: "@discord",
-  hospital: "Aurora Capital",
-  role: "Médico"
+  name: "Carregando...",
+  discord: "@Discord",
+  hospital: "Não identificado",
+  role: "Não identificado"
 };
 
 function formatTime(minutes) {
