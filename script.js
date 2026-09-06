@@ -289,6 +289,8 @@ window.history.replaceState(
   window.location.pathname
 );
 */
+
+  }
 // ========================================
 // SINCRONIZAÇÃO DE FUNCIONÁRIOS DO DISCORD
 // ========================================
