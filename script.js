@@ -464,13 +464,12 @@ const API_URL =
 
 // Pegar dados do usuário que vieram do login Discord
 
-const urlParams = new URLSearchParams(window.location.search);
+const clockUrlParams = new URLSearchParams(window.location.search);
 
-const discordId = urlParams.get("discord_id");
-const discordName = urlParams.get("discord_user");
-const loggedHospital = urlParams.get("hospital");
-const loggedRole = urlParams.get("role");
-
+const discordId = clockUrlParams.get("discord_id");
+const discordName = clockUrlParams.get("discord_user");
+const loggedHospital = clockUrlParams.get("hospital");
+const loggedRole = clockUrlParams.get("role");
 
 // Elementos dos botões
 
