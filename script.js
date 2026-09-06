@@ -245,4 +245,31 @@ const managementRoles = [
 
 let managementAccess = false;
 
+// ========================================
+// RETORNO DO LOGIN DO DISCORD
+// ========================================
 
+const urlParams = new URLSearchParams(window.location.search);
+const discordUser = urlParams.get("discord_user");
+
+if (discordUser) {
+
+  // Esconde a tela de login
+  document.getElementById("loginScreen").classList.remove("active");
+
+  // Abre o portal
+  document.getElementById("portalScreen").classList.add("active");
+
+  // Atualiza o nome do usuário
+  demoUser.name = discordUser;
+
+  // Atualiza as informações na tela
+  setUser(demoUser);
+
+  // Remove o nome da URL
+  window.history.replaceState(
+    {},
+    document.title,
+    window.location.pathname
+  );
+}
