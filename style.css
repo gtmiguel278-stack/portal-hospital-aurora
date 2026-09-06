@@ -1231,3 +1231,170 @@ grid-template-columns: 1fr;
 }
 
 }
+
+/* ========================================
+   MODO CLARO / ESCURO
+======================================== */
+
+/* Área do botão no topo */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Botão de alternância */
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 30px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+  box-shadow: 0 8px 25px rgba(20, 30, 70, 0.08);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+}
+
+/* Barra da chavinha */
+.theme-switch {
+  width: 42px;
+  height: 22px;
+  background: #dfe4ee;
+  border-radius: 20px;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
+}
+
+/* Bolinha */
+.theme-ball {
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Ícones */
+.theme-icon {
+  font-size: 16px;
+}
+
+
+/* ========================================
+   MODO ESCURO
+======================================== */
+
+body.dark-mode {
+  --bg: #111827;
+  --text: #f3f4f6;
+  --muted: #9ca3af;
+  --card: #1b2433;
+  --border: rgba(255,255,255,0.08);
+
+  background: #111827;
+}
+
+/* Cards */
+body.dark-mode .info-card,
+body.dark-mode .stat,
+body.dark-mode .profile-mini,
+body.dark-mode .employees-table-container,
+body.dark-mode .management-stat,
+body.dark-mode .management-controls,
+body.dark-mode .hours-page-card,
+body.dark-mode .unit-page-card,
+body.dark-mode .info-page-grid article {
+  background: #1b2433;
+  color: #f3f4f6;
+}
+
+/* Fundos secundários */
+body.dark-mode .employee-header {
+  background: #202b3d;
+}
+
+body.dark-mode .employee-data:hover {
+  background: #222e42;
+}
+
+body.dark-mode .management-controls input,
+body.dark-mode .management-controls select {
+  background: #202b3d;
+  color: #f3f4f6;
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* Linhas */
+body.dark-mode .profile-main,
+body.dark-mode .employees-table-header,
+body.dark-mode .employee-data,
+body.dark-mode .unit-hero,
+body.dark-mode .demo-controls {
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* Botão */
+body.dark-mode .theme-toggle {
+  background: #1b2433;
+  color: white;
+  border-color: rgba(255,255,255,0.1);
+}
+
+body.dark-mode .theme-switch {
+  background: var(--blue);
+}
+
+body.dark-mode .theme-ball {
+  transform: translateX(20px);
+}
+
+/* Informações */
+body.dark-mode .sync-info {
+  background: #202b3d;
+}
+
+/* Botões de demonstração */
+body.dark-mode .control-buttons button {
+  background: #202b3d;
+  color: #dbe4ff;
+  border-color: rgba(255,255,255,0.1);
+}
+
+/* Campos */
+body.dark-mode input::placeholder {
+  color: #9ca3af;
+}
+
+
+/* ========================================
+   RESPONSIVIDADE DO BOTÃO
+======================================== */
+
+@media (max-width: 600px) {
+
+  .topbar-actions {
+    gap: 8px;
+  }
+
+  .theme-toggle {
+    padding: 7px;
+    gap: 5px;
+  }
+
+  .theme-icon {
+    font-size: 13px;
+  }
+
+  .profile-mini {
+    padding: 7px;
+  }
+
+}
