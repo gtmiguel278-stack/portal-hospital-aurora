@@ -64,11 +64,13 @@
         <button class="nav-item" data-section="hours">◷ <span>Minhas Horas</span></button>
         <button class="nav-item" data-section="hospital">✚ <span>Meu Hospital</span></button>
         <button class="nav-item" data-section="info">ⓘ <span>Informações</span></button>
+        <button class="nav-item management-nav" data-section="management">👑 <span>Gestão</span></button>
       </nav>
 
       <button id="logoutButton" class="logout">↪ <span>Sair</span></button>
     </aside>
 
+   
     <main class="main-content">
       <header class="topbar">
         <div>
@@ -274,6 +276,240 @@
         </div>
       </div>
 
+    
+    <!-- GESTÃO -->
+<div id="management" class="content-section">
+
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">ADMINISTRAÇÃO</span>
+      <h3>Painel da Gestão 👑</h3>
+    </div>
+
+    <span class="week-badge">Meta semanal: 15 horas</span>
+  </div>
+
+  <!-- RESUMO DA GESTÃO -->
+  <div class="management-stats">
+
+    <div class="management-stat">
+      <span class="management-icon">👥</span>
+      <div>
+        <small>Total de Funcionários</small>
+        <strong id="totalEmployees">24</strong>
+      </div>
+    </div>
+
+    <div class="management-stat">
+      <span class="management-icon">🏥</span>
+      <div>
+        <small>Aurora Capital</small>
+        <strong id="capitalEmployees">14</strong>
+      </div>
+    </div>
+
+    <div class="management-stat">
+      <span class="management-icon">🏥</span>
+      <div>
+        <small>Aurora North</small>
+        <strong id="northEmployees">10</strong>
+      </div>
+    </div>
+
+    <div class="management-stat">
+      <span class="management-icon">✅</span>
+      <div>
+        <small>Metas Concluídas</small>
+        <strong id="completedEmployees">8</strong>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- FILTROS -->
+  <div class="management-controls">
+
+    <input
+      type="text"
+      id="employeeSearch"
+      placeholder="🔎 Pesquisar funcionário..."
+    >
+
+    <select id="hospitalFilter">
+      <option value="all">Todos os hospitais</option>
+      <option value="Capital">Aurora Capital</option>
+      <option value="North">Aurora North</option>
+    </select>
+
+    <select id="statusFilter">
+      <option value="all">Todos os status</option>
+      <option value="completed">Meta concluída</option>
+      <option value="pending">Meta pendente</option>
+    </select>
+
+  </div>
+
+
+  <!-- LISTA DE FUNCIONÁRIOS -->
+  <div class="employees-table-container">
+
+    <div class="employees-table-header">
+      <div>
+        <span class="eyebrow">COLABORADORES</span>
+        <h3>Lista de Funcionários</h3>
+      </div>
+
+      <span class="demo-label">
+        Dados demonstrativos
+      </span>
+    </div>
+
+
+    <div class="employees-table">
+
+      <!-- CABEÇALHO -->
+      <div class="employee-row employee-header">
+        <div>Funcionário</div>
+        <div>Hospital</div>
+        <div>Cargo</div>
+        <div>Horas</div>
+        <div>Status</div>
+      </div>
+
+
+      <!-- FUNCIONÁRIO 1 -->
+      <div class="employee-row employee-data"
+           data-name="Lucas"
+           data-hospital="Capital"
+           data-status="completed">
+
+        <div class="employee-name">
+          <div class="employee-avatar">L</div>
+          Lucas
+        </div>
+
+        <div>
+          <span class="hospital-badge capital-badge">
+            Capital
+          </span>
+        </div>
+
+        <div>Médico</div>
+
+        <div>
+          <strong>15h 00min</strong>
+        </div>
+
+        <div>
+          <span class="status completed-status">
+            ✅ Concluído
+          </span>
+        </div>
+
+      </div>
+
+
+      <!-- FUNCIONÁRIO 2 -->
+      <div class="employee-row employee-data"
+           data-name="João"
+           data-hospital="North"
+           data-status="pending">
+
+        <div class="employee-name">
+          <div class="employee-avatar">J</div>
+          João
+        </div>
+
+        <div>
+          <span class="hospital-badge north-badge">
+            North
+          </span>
+        </div>
+
+        <div>Enfermeiro</div>
+
+        <div>
+          <strong>10h 30min</strong>
+        </div>
+
+        <div>
+          <span class="status pending-status">
+            ⏳ Pendente
+          </span>
+        </div>
+
+      </div>
+
+
+      <!-- FUNCIONÁRIO 3 -->
+      <div class="employee-row employee-data"
+           data-name="Maria"
+           data-hospital="Capital"
+           data-status="pending">
+
+        <div class="employee-name">
+          <div class="employee-avatar">M</div>
+          Maria
+        </div>
+
+        <div>
+          <span class="hospital-badge capital-badge">
+            Capital
+          </span>
+        </div>
+
+        <div>Paramédica</div>
+
+        <div>
+          <strong>7h 45min</strong>
+        </div>
+
+        <div>
+          <span class="status pending-status">
+            ⏳ Pendente
+          </span>
+        </div>
+
+      </div>
+
+
+      <!-- FUNCIONÁRIO 4 -->
+      <div class="employee-row employee-data"
+           data-name="Carlos"
+           data-hospital="North"
+           data-status="completed">
+
+        <div class="employee-name">
+          <div class="employee-avatar">C</div>
+          Carlos
+        </div>
+
+        <div>
+          <span class="hospital-badge north-badge">
+            North
+          </span>
+        </div>
+
+        <div>Cirurgião</div>
+
+        <div>
+          <strong>16h 20min</strong>
+        </div>
+
+        <div>
+          <span class="status completed-status">
+            ✅ Concluído
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<!-- FIM DO PAINEL DA GESTÃO -->
     </main>
   </section>
 
