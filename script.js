@@ -453,3 +453,455 @@ async function loadEmployees() {
 
 // Carregar funcionários automaticamente
 loadEmployees();
+
+// ========================================
+// SISTEMA DE BATE-PONTO
+// ========================================
+
+const API_URL =
+  "https://portal-hospital-aurora.gtmiguel278.workers.dev";
+
+
+// Pegar dados do usuário que vieram do login Discord
+
+const urlParams = new URLSearchParams(window.location.search);
+
+const discordId = urlParams.get("discord_id");
+const discordName = urlParams.get("discord_user");
+const loggedHospital = urlParams.get("hospital");
+const loggedRole = urlParams.get("role");
+
+
+// Elementos dos botões
+
+const clockInButton =
+  document.getElementById("clockInButton");
+
+const breakStartButton =
+  document.getElementById("breakStartButton");
+
+const breakEndButton =
+  document.getElementById("breakEndButton");
+
+const clockOutButton =
+  document.getElementById("clockOutButton");
+
+
+// ========================================
+// FORMATAR TEMPO
+// ========================================
+
+function formatWorkedTime(minutes) {
+
+  const safe = Math.max(
+    0,
+    Math.floor(minutes)
+  );
+
+  const hours =
+    Math.floor(safe / 60);
+
+  const mins =
+    safe % 60;
+
+  return `${hours}h ${String(mins).padStart(2, "0")}min`;
+}
+
+
+// ========================================
+// ATUALIZAR PAINEL DE HORAS
+// ========================================
+
+async function updateMyHours() {
+
+  if (!discordId) return;
+
+  try {
+
+    const response = await fetch(
+      `${API_URL}/my-hours?discord_id=${encodeURIComponent(discordId)}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error(data.error);
+      return;
+    }
+
+    const percentage =
+      Math.min(
+        100,
+        (data.minutes / data.goal) * 100
+      );
+
+    const hoursValue =
+      document.getElementById("hoursValue");
+
+    const statHours =
+      document.getElementById("statHours");
+
+    const statRemaining =
+      document.getElementById("statRemaining");
+
+    const progressBar =
+      document.getElementById("progressBar");
+
+    const progressText =
+      document.getElementById("progressText");
+
+    const remainingText =
+      document.getElementById("remainingText");
+
+    const statusBox =
+      document.getElementById("statusBox");
+
+
+    if (hoursValue) {
+      hoursValue.textContent =
+        formatWorkedTime(data.minutes);
+    }
+
+    if (statHours) {
+      statHours.textContent =
+        formatWorkedTime(data.minutes);
+    }
+
+    if (statRemaining) {
+      statRemaining.textContent =
+        formatWorkedTime(data.remaining);
+    }
+
+    if (progressBar) {
+      progressBar.style.width =
+        `${percentage}%`;
+    }
+
+    if (progressText) {
+      progressText.textContent =
+        `${Math.floor(percentage)}% concluído`;
+    }
+
+    if (remainingText) {
+
+      remainingText.textContent =
+        data.completed
+          ? "🎉 Meta semanal concluída!"
+          : `Faltam ${formatWorkedTime(data.remaining)}`;
+    }
+
+
+    // Status visual
+
+    if (statusBox) {
+
+      if (data.status === "active") {
+
+        statusBox.textContent =
+          "🟢 Ponto em andamento";
+
+        statusBox.className =
+          "status-box active";
+
+      } else if (data.status === "paused") {
+
+        statusBox.textContent =
+          "🟡 Você está em pausa";
+
+        statusBox.className =
+          "status-box pending";
+
+      } else if (data.completed) {
+
+        statusBox.textContent =
+          "✅ Meta semanal concluída";
+
+        statusBox.className =
+          "status-box completed";
+
+      } else {
+
+        statusBox.textContent =
+          "⏳ Meta semanal em andamento";
+
+        statusBox.className =
+          "status-box pending";
+      }
+    }
+
+
+    // Mostrar/esconder botões conforme situação
+
+    if (clockInButton) {
+      clockInButton.style.display =
+        data.status === "closed"
+          ? "block"
+          : "none";
+    }
+
+    if (breakStartButton) {
+      breakStartButton.style.display =
+        data.status === "active"
+          ? "block"
+          : "none";
+    }
+
+    if (breakEndButton) {
+      breakEndButton.style.display =
+        data.status === "paused"
+          ? "block"
+          : "none";
+    }
+
+    if (clockOutButton) {
+      clockOutButton.style.display =
+        data.status === "active" ||
+        data.status === "paused"
+          ? "block"
+          : "none";
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao atualizar horas:",
+      error
+    );
+  }
+}
+
+
+// ========================================
+// INICIAR PONTO
+// ========================================
+
+if (clockInButton) {
+
+  clockInButton.addEventListener(
+    "click",
+    async () => {
+
+      if (!discordId) {
+        alert(
+          "Faça login pelo Discord novamente."
+        );
+        return;
+      }
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_URL}/clock-in`,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+                discord_id: discordId,
+                discord_name: discordName,
+                hospital: loggedHospital,
+                role: loggedRole
+              })
+            }
+          );
+
+        const data =
+          await response.json();
+
+        if (!response.ok) {
+          alert(data.error);
+          return;
+        }
+
+        await updateMyHours();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Erro ao iniciar o ponto."
+        );
+      }
+
+    }
+  );
+}
+
+
+// ========================================
+// INICIAR PAUSA
+// ========================================
+
+if (breakStartButton) {
+
+  breakStartButton.addEventListener(
+    "click",
+    async () => {
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_URL}/break-start`,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+                discord_id: discordId
+              })
+            }
+          );
+
+        const data =
+          await response.json();
+
+        if (!response.ok) {
+          alert(data.error);
+          return;
+        }
+
+        await updateMyHours();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Erro ao iniciar a pausa."
+        );
+      }
+
+    }
+  );
+}
+
+
+// ========================================
+// RETOMAR PONTO
+// ========================================
+
+if (breakEndButton) {
+
+  breakEndButton.addEventListener(
+    "click",
+    async () => {
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_URL}/break-end`,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+                discord_id: discordId
+              })
+            }
+          );
+
+        const data =
+          await response.json();
+
+        if (!response.ok) {
+          alert(data.error);
+          return;
+        }
+
+        await updateMyHours();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Erro ao retomar o ponto."
+        );
+      }
+
+    }
+  );
+}
+
+
+// ========================================
+// ENCERRAR PONTO
+// ========================================
+
+if (clockOutButton) {
+
+  clockOutButton.addEventListener(
+    "click",
+    async () => {
+
+      try {
+
+        const response =
+          await fetch(
+            `${API_URL}/clock-out`,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+                discord_id: discordId
+              })
+            }
+          );
+
+        const data =
+          await response.json();
+
+        if (!response.ok) {
+          alert(data.error);
+          return;
+        }
+
+        await updateMyHours();
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Erro ao encerrar o ponto."
+        );
+      }
+
+    }
+  );
+}
+
+
+// ========================================
+// INICIAR SISTEMA
+// ========================================
+
+updateMyHours();
+
+// Atualiza automaticamente a cada 30 segundos
+
+setInterval(
+  updateMyHours,
+  30000
+);
