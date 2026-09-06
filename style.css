@@ -457,3 +457,28 @@ button { font: inherit; cursor: pointer; }
     grid-template-columns: 1fr;
   }
 }
+
+/* ========================================
+   TOP SEMANAL - PODIUM
+======================================== */
+
+.weekly-podium {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.podium-card {
+  width: 100%;
+}
+
+/* TOP SEMANAL - CELULAR */
+
+@media (max-width: 768px) {
+
+  .weekly-podium {
+    grid-template-columns: 1fr;
+  }
+
+}
