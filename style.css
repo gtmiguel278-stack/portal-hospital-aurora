@@ -405,3 +405,55 @@ button { font: inherit; cursor: pointer; }
   }
 
 }
+/* ========================================
+   BOTÕES DO BATE-PONTO
+======================================== */
+
+.clock-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.clock-button {
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.clock-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.clock-in {
+  background: #22c55e;
+  color: white;
+}
+
+.break-start {
+  background: #eab308;
+  color: white;
+}
+
+.break-end {
+  background: #3b82f6;
+  color: white;
+}
+
+.clock-out {
+  background: #ef4444;
+  color: white;
+}
+
+/* Celular */
+@media (max-width: 600px) {
+  .clock-actions {
+    grid-template-columns: 1fr;
+  }
+}
