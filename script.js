@@ -147,19 +147,13 @@ document.querySelectorAll(".nav-item").forEach(button => {
 });
 
 // ========================================
-// LOGIN COM DISCORD
+// LOGIN COM DISCORD VIA CLOUDFLARE
 // ========================================
 
 document.getElementById("discordLogin").addEventListener("click", () => {
 
-  const discordAuthUrl =
-    "https://discord.com/oauth2/authorize" +
-    "?client_id=" + DISCORD_CLIENT_ID +
-    "&redirect_uri=" + encodeURIComponent(DISCORD_REDIRECT_URI) +
-    "&response_type=code" +
-    "&scope=identify";
-
-  window.location.href = discordAuthUrl;
+  window.location.href =
+    "https://portal-hospital-aurora.gtmiguel278.workers.dev/login";
 
 });
 
