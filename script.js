@@ -250,9 +250,27 @@ let managementAccess = false;
 // ========================================
 
 const urlParams = new URLSearchParams(window.location.search);
+
 const discordUser = urlParams.get("discord_user");
+const discordHospital = urlParams.get("hospital");
+const discordRole = urlParams.get("role");
+const discordManagement = urlParams.get("management");
 
 if (discordUser) {
+
+  // Atualiza os dados do usuário
+  demoUser.name = discordUser;
+
+  if (discordHospital) {
+    demoUser.hospital = discordHospital;
+  }
+
+  if (discordRole) {
+    demoUser.role = discordRole;
+  }
+
+  // Atualiza acesso à gestão
+  managementAccess = discordManagement === "true";
 
   // Esconde a tela de login
   document.getElementById("loginScreen").classList.remove("active");
@@ -260,13 +278,10 @@ if (discordUser) {
   // Abre o portal
   document.getElementById("portalScreen").classList.add("active");
 
-  // Atualiza o nome do usuário
-  demoUser.name = discordUser;
-
-  // Atualiza as informações na tela
+  // Atualiza informações na tela
   setUser(demoUser);
 
-  // Remove o nome da URL
+  // Limpa os dados da URL
   window.history.replaceState(
     {},
     document.title,
