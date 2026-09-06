@@ -913,3 +913,123 @@ setInterval(
   updateMyHours,
   30000
 );
+
+// ========================================
+// TOP SEMANAL
+// ========================================
+
+const WEEKLY_RANKING_API =
+  "https://portal-hospital-aurora.gtmiguel278.workers.dev/weekly-ranking";
+
+
+function formatRankingTime(minutes) {
+
+  const hours = Math.floor(minutes / 60);
+
+  const remainingMinutes =
+    minutes % 60;
+
+  return `${hours}h ${String(
+    remainingMinutes
+  ).padStart(2, "0")}min`;
+
+}
+
+
+async function loadWeeklyRanking() {
+
+  try {
+
+    const response =
+      await fetch(WEEKLY_RANKING_API);
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Erro ao carregar ranking"
+      );
+
+    }
+
+    const data =
+      await response.json();
+
+    const ranking =
+      data.ranking || [];
+
+
+    // Elementos do TOP 3
+
+    const firstName =
+      document.getElementById("firstPlaceName");
+
+    const firstHours =
+      document.getElementById("firstPlaceHours");
+
+    const secondName =
+      document.getElementById("secondPlaceName");
+
+    const secondHours =
+      document.getElementById("secondPlaceHours");
+
+    const thirdName =
+      document.getElementById("thirdPlaceName");
+
+    const thirdHours =
+      document.getElementById("thirdPlaceHours");
+
+
+    // 1º Lugar
+
+    if (ranking[0] && firstName && firstHours) {
+
+      firstName.textContent =
+        ranking[0].name;
+
+      firstHours.textContent =
+        formatRankingTime(
+          ranking[0].minutes
+        );
+
+    }
+
+
+    // 2º Lugar
+
+    if (ranking[1] && secondName && secondHours) {
+
+      secondName.textContent =
+        ranking[1].name;
+
+      secondHours.textContent =
+        formatRankingTime(
+          ranking[1].minutes
+        );
+
+    }
+
+
+    // 3º Lugar
+
+    if (ranking[2] && thirdName && thirdHours) {
+
+      thirdName.textContent =
+        ranking[2].name;
+
+      thirdHours.textContent =
+        formatRankingTime(
+          ranking[2].minutes
+        );
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao carregar TOP SEMANAL:",
+      error
+    );
+
+  }
+
+}
