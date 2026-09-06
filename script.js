@@ -288,3 +288,168 @@ if (discordUser) {
     window.location.pathname
   );
 }
+// ========================================
+// SINCRONIZAÇÃO DE FUNCIONÁRIOS DO DISCORD
+// ========================================
+
+const EMPLOYEES_API =
+  "https://portal-hospital-aurora.gtmiguel278.workers.dev/employees";
+
+async function loadEmployees() {
+  try {
+    const response = await fetch(EMPLOYEES_API);
+
+    if (!response.ok) {
+      throw new Error("Erro ao buscar funcionários");
+    }
+
+    const data = await response.json();
+
+    const employees = data.employees || [];
+
+    // Elementos dos números da Gestão
+    const totalEmployees =
+      document.getElementById("totalEmployees");
+
+    const capitalEmployees =
+      document.getElementById("capitalEmployees");
+
+    const northEmployees =
+      document.getElementById("northEmployees");
+
+
+    // Calcular hospitais
+    const capitalCount = employees.filter(
+      employee => employee.hospital === "Aurora Capital"
+    ).length;
+
+    const northCount = employees.filter(
+      employee => employee.hospital === "Aurora North"
+    ).length;
+
+
+    // Atualizar números
+    if (totalEmployees) {
+      totalEmployees.textContent = employees.length;
+    }
+
+    if (capitalEmployees) {
+      capitalEmployees.textContent = capitalCount;
+    }
+
+    if (northEmployees) {
+      northEmployees.textContent = northCount;
+    }
+
+
+    // Tabela de funcionários
+    const employeesTable =
+      document.querySelector(".employees-table");
+
+    if (!employeesTable) return;
+
+
+    // Remover funcionários antigos,
+    // mantendo o cabeçalho
+    const oldEmployees =
+      employeesTable.querySelectorAll(".employee-data");
+
+    oldEmployees.forEach(employee => {
+      employee.remove();
+    });
+
+
+    // Criar funcionários reais
+    employees.forEach(employee => {
+
+      const hospitalClass =
+        employee.hospital === "Aurora Capital"
+          ? "capital-badge"
+          : "north-badge";
+
+      const hospitalName =
+        employee.hospital === "Aurora Capital"
+          ? "Capital"
+          : "North";
+
+
+      const row = document.createElement("div");
+
+      row.className =
+        "employee-row employee-data";
+
+      row.dataset.name =
+        employee.name.toLowerCase();
+
+      row.dataset.hospital =
+        hospitalName;
+
+      row.dataset.status =
+        "pending";
+
+
+      const firstLetter =
+        employee.name.charAt(0).toUpperCase();
+
+
+      row.innerHTML = `
+
+        <div class="employee-name">
+
+          <div class="employee-avatar">
+            ${firstLetter}
+          </div>
+
+          ${employee.name}
+
+        </div>
+
+
+        <div>
+
+          <span class="hospital-badge ${hospitalClass}">
+            ${hospitalName}
+          </span>
+
+        </div>
+
+
+        <div>
+          ${employee.role}
+        </div>
+
+
+        <div>
+          <strong>0h 00min</strong>
+        </div>
+
+
+        <div>
+
+          <span class="status pending-status">
+            ⏳ Aguardando horas
+          </span>
+
+        </div>
+
+      `;
+
+
+      employeesTable.appendChild(row);
+
+    });
+
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao sincronizar funcionários:",
+      error
+    );
+
+  }
+}
+
+
+// Carregar funcionários automaticamente
+loadEmployees();
