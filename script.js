@@ -1,3 +1,12 @@
+// ========================================
+// CONFIGURAÇÃO DO DISCORD
+// ========================================
+
+const DISCORD_CLIENT_ID = "1545967147132653678";
+
+const DISCORD_REDIRECT_URI =
+  "https://gtmiguel278-stack.github.io/portal-hospital-aurora/";
+
 // ======================================================
 // PORTAL HOSPITAL AURORA
 // Protótipo visual. A integração real com Discord/Nyox
@@ -137,15 +146,21 @@ document.querySelectorAll(".nav-item").forEach(button => {
   });
 });
 
-// Login de demonstração
-document.getElementById("discordLogin").addEventListener("click", () => {
-  document.getElementById("loginScreen").classList.remove("active");
-  document.getElementById("portalScreen").classList.add("active");
+// ========================================
+// LOGIN COM DISCORD
+// ========================================
 
-  // FUTURO:
-  // Aqui será iniciado o Discord OAuth2.
-  // Após autenticar, o backend buscará os cargos no servidor.
-  setUser(demoUser);
+document.getElementById("discordLogin").addEventListener("click", () => {
+
+  const discordAuthUrl =
+    "https://discord.com/oauth2/authorize" +
+    "?client_id=" + DISCORD_CLIENT_ID +
+    "&redirect_uri=" + encodeURIComponent(DISCORD_REDIRECT_URI) +
+    "&response_type=code" +
+    "&scope=identify";
+
+  window.location.href = discordAuthUrl;
+
 });
 
 // Sair
