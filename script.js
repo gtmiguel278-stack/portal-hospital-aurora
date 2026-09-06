@@ -281,13 +281,14 @@ if (discordUser) {
   // Atualiza informações na tela
   setUser(demoUser);
 
-  // Limpa os dados da URL
-  window.history.replaceState(
-    {},
-    document.title,
-    window.location.pathname
-  );
-}
+ // Os dados da URL são mantidos para o sistema de bate-ponto
+/*
+window.history.replaceState(
+  {},
+  document.title,
+  window.location.pathname
+);
+*/
 // ========================================
 // SINCRONIZAÇÃO DE FUNCIONÁRIOS DO DISCORD
 // ========================================
