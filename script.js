@@ -422,19 +422,25 @@ async function loadEmployees() {
         </div>
 
 
-        <div>
-          <strong>0h 00min</strong>
-        </div>
+       <div>
+  <strong>${Math.floor(employee.minutes / 60)}h ${String(employee.minutes % 60).padStart(2, "0")}min</strong>
+</div>
 
-
-        <div>
-
-          <span class="status pending-status">
-            ⏳ Aguardando horas
-          </span>
-
-        </div>
-
+<div>
+  <span class="status ${
+    employee.completed
+      ? "completed-status"
+      : "pending-status"
+  }">
+    ${
+      employee.completed
+        ? "✅ Meta concluída"
+        : employee.minutes > 0
+          ? "⏳ Meta em andamento"
+          : "⚪ Aguardando horas"
+    }
+  </span>
+</div>
       `;
 
 
