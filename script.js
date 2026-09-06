@@ -1042,3 +1042,47 @@ setInterval(
   loadWeeklyRanking,
   30000
 );
+
+// ========================================
+// MODO CLARO / ESCURO
+// ========================================
+
+const themeToggle =
+  document.getElementById("themeToggle");
+
+// Verificar tema salvo anteriormente
+const savedTheme =
+  localStorage.getItem("hospitalAuroraTheme");
+
+// Aplicar tema salvo
+if (savedTheme === "dark") {
+  document.body.classList.add("dark-mode");
+}
+
+// Alternar tema
+if (themeToggle) {
+
+  themeToggle.addEventListener(
+    "click",
+    () => {
+
+      document.body.classList.toggle(
+        "dark-mode"
+      );
+
+      // Verificar qual tema está ativo
+      const isDark =
+        document.body.classList.contains(
+          "dark-mode"
+        );
+
+      // Salvar preferência
+      localStorage.setItem(
+        "hospitalAuroraTheme",
+        isDark ? "dark" : "light"
+      );
+
+    }
+  );
+
+}
