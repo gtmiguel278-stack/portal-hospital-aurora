@@ -1033,3 +1033,12 @@ async function loadWeeklyRanking() {
   }
 
 }
+
+// Carregar TOP SEMANAL
+loadWeeklyRanking();
+
+// Atualizar ranking automaticamente a cada 30 segundos
+setInterval(
+  loadWeeklyRanking,
+  30000
+);
