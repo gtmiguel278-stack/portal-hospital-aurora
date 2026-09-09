@@ -9,11 +9,9 @@ const DISCORD_REDIRECT_URI =
 
 // ======================================================
 // PORTAL HOSPITAL AURORA
-// Protótipo visual. A integração real com Discord/Nyox
-// será adicionada em uma próxima etapa.
 // ======================================================
 
-const WEEKLY_GOAL = 15 * 60; // 15 horas em minutos
+const WEEKLY_GOAL = 15 * 60;
 let workedMinutes = 0;
 
 const demoUser = {
@@ -27,175 +25,467 @@ function formatTime(minutes) {
   const safe = Math.max(0, Math.floor(minutes));
   const hours = Math.floor(safe / 60);
   const mins = safe % 60;
+
   return `${hours}h ${String(mins).padStart(2, "0")}min`;
 }
 
 function updateDashboard() {
-  const percentage = Math.min(100, Math.round((workedMinutes / WEEKLY_GOAL) * 100));
-  const remaining = Math.max(0, WEEKLY_GOAL - workedMinutes);
-  const completed = workedMinutes >= WEEKLY_GOAL;
 
-  document.getElementById("hoursValue").textContent = formatTime(workedMinutes);
-  document.getElementById("progressBar").style.width = percentage + "%";
-  document.getElementById("progressText").textContent = percentage + "% concluído";
-  document.getElementById("remainingText").textContent = completed
-    ? "Meta concluída!"
-    : "Faltam " + formatTime(remaining);
+  const percentage = Math.min(
+    100,
+    Math.round((workedMinutes / WEEKLY_GOAL) * 100)
+  );
 
-  document.getElementById("statHours").textContent = formatTime(workedMinutes);
-  document.getElementById("statRemaining").textContent = formatTime(remaining);
-  document.getElementById("statStatus").textContent = completed ? "Concluída ✓" : "Em andamento";
+  const remaining = Math.max(
+    0,
+    WEEKLY_GOAL - workedMinutes
+  );
 
-  document.getElementById("hoursLarge").textContent = formatTime(workedMinutes);
-  document.getElementById("circlePercent").textContent = percentage + "%";
+  const completed =
+    workedMinutes >= WEEKLY_GOAL;
 
-  const degrees = percentage * 3.6;
-  document.getElementById("circleProgress").style.background =
-    `conic-gradient(#173caa ${degrees}deg, #e9edf6 ${degrees}deg)`;
+  const hoursValue =
+    document.getElementById("hoursValue");
 
-  const dashboardStatus = document.getElementById("statusBox");
-  const hoursStatus = document.getElementById("hoursStatus");
+  const progressBar =
+    document.getElementById("progressBar");
+
+  const progressText =
+    document.getElementById("progressText");
+
+  const remainingText =
+    document.getElementById("remainingText");
+
+  const statHours =
+    document.getElementById("statHours");
+
+  const statRemaining =
+    document.getElementById("statRemaining");
+
+  const statStatus =
+    document.getElementById("statStatus");
+
+  const hoursLarge =
+    document.getElementById("hoursLarge");
+
+  const circlePercent =
+    document.getElementById("circlePercent");
+
+  const circleProgress =
+    document.getElementById("circleProgress");
+
+  if (hoursValue) {
+    hoursValue.textContent =
+      formatTime(workedMinutes);
+  }
+
+  if (progressBar) {
+    progressBar.style.width =
+      percentage + "%";
+  }
+
+  if (progressText) {
+    progressText.textContent =
+      percentage + "% concluído";
+  }
+
+  if (remainingText) {
+    remainingText.textContent =
+      completed
+        ? "Meta concluída!"
+        : "Faltam " + formatTime(remaining);
+  }
+
+  if (statHours) {
+    statHours.textContent =
+      formatTime(workedMinutes);
+  }
+
+  if (statRemaining) {
+    statRemaining.textContent =
+      formatTime(remaining);
+  }
+
+  if (statStatus) {
+    statStatus.textContent =
+      completed
+        ? "Concluída ✓"
+        : "Em andamento";
+  }
+
+  if (hoursLarge) {
+    hoursLarge.textContent =
+      formatTime(workedMinutes);
+  }
+
+  if (circlePercent) {
+    circlePercent.textContent =
+      percentage + "%";
+  }
+
+  if (circleProgress) {
+
+    const degrees =
+      percentage * 3.6;
+
+    circleProgress.style.background =
+      `conic-gradient(#173caa ${degrees}deg, #e9edf6 ${degrees}deg)`;
+  }
+
+  const dashboardStatus =
+    document.getElementById("statusBox");
+
+  const hoursStatus =
+    document.getElementById("hoursStatus");
 
   if (completed) {
-    dashboardStatus.textContent = "✅ META SEMANAL CONCLUÍDA!";
-    dashboardStatus.className = "status-box completed";
-    hoursStatus.textContent = "✅ Parabéns! Você concluiu sua carga semanal de 15 horas.";
-    hoursStatus.className = "status-box completed";
+
+    if (dashboardStatus) {
+      dashboardStatus.textContent =
+        "✅ META SEMANAL CONCLUÍDA!";
+
+      dashboardStatus.className =
+        "status-box completed";
+    }
+
+    if (hoursStatus) {
+      hoursStatus.textContent =
+        "✅ Parabéns! Você concluiu sua carga semanal de 15 horas.";
+
+      hoursStatus.className =
+        "status-box completed";
+    }
+
   } else {
-    dashboardStatus.textContent = "⏳ Meta semanal em andamento";
-    dashboardStatus.className = "status-box pending";
-    hoursStatus.textContent = `⏳ Faltam ${formatTime(remaining)} para concluir sua meta.`;
-    hoursStatus.className = "status-box pending";
+
+    if (dashboardStatus) {
+      dashboardStatus.textContent =
+        "⏳ Meta semanal em andamento";
+
+      dashboardStatus.className =
+        "status-box pending";
+    }
+
+    if (hoursStatus) {
+      hoursStatus.textContent =
+        `⏳ Faltam ${formatTime(remaining)} para concluir sua meta.`;
+
+      hoursStatus.className =
+        "status-box pending";
+    }
   }
 }
 
 function changeHours(amount) {
-  workedMinutes = Math.max(0, Math.min(WEEKLY_GOAL, workedMinutes + amount));
+
+  workedMinutes =
+    Math.max(
+      0,
+      Math.min(
+        WEEKLY_GOAL,
+        workedMinutes + amount
+      )
+    );
+
   updateDashboard();
 }
 
 function setUser(user) {
-  demoUser.name = user.name || demoUser.name;
-  demoUser.discord = user.discord || demoUser.discord;
-  demoUser.hospital = user.hospital || demoUser.hospital;
-  demoUser.role = user.role || demoUser.role;
 
-  document.getElementById("topName").textContent = demoUser.name;
-  document.getElementById("userName").textContent = demoUser.name;
-  document.getElementById("discordName").textContent = demoUser.discord;
-  document.getElementById("hospitalName").textContent = demoUser.hospital;
-  document.getElementById("roleName").textContent = demoUser.role;
-  document.getElementById("unitTitle").textContent = demoUser.hospital;
-  document.getElementById("unitDescription").textContent =
-    `Você faz parte da unidade ${demoUser.hospital.replace("Aurora ", "")}.`;
-  document.getElementById("hospitalPageName").textContent = demoUser.hospital;
-  document.getElementById("hospitalPageText").textContent =
-    `Seu hospital (${demoUser.hospital}) será identificado automaticamente através da sua integração com o Discord.`;
+  demoUser.name =
+    user.name || demoUser.name;
 
-  const initial = demoUser.name.charAt(0).toUpperCase();
-  document.querySelectorAll(".avatar, .big-avatar").forEach(el => el.textContent = initial);
+  demoUser.discord =
+    user.discord || demoUser.discord;
+
+  demoUser.hospital =
+    user.hospital || demoUser.hospital;
+
+  demoUser.role =
+    user.role || demoUser.role;
+
+  const topName =
+    document.getElementById("topName");
+
+  const userName =
+    document.getElementById("userName");
+
+  const discordName =
+    document.getElementById("discordName");
+
+  const hospitalName =
+    document.getElementById("hospitalName");
+
+  const roleName =
+    document.getElementById("roleName");
+
+  const unitTitle =
+    document.getElementById("unitTitle");
+
+  const unitDescription =
+    document.getElementById("unitDescription");
+
+  const hospitalPageName =
+    document.getElementById("hospitalPageName");
+
+  const hospitalPageText =
+    document.getElementById("hospitalPageText");
+
+  if (topName) {
+    topName.textContent =
+      demoUser.name;
+  }
+
+  if (userName) {
+    userName.textContent =
+      demoUser.name;
+  }
+
+  if (discordName) {
+    discordName.textContent =
+      demoUser.discord;
+  }
+
+  if (hospitalName) {
+    hospitalName.textContent =
+      demoUser.hospital;
+  }
+
+  if (roleName) {
+    roleName.textContent =
+      demoUser.role;
+  }
+
+  if (unitTitle) {
+    unitTitle.textContent =
+      demoUser.hospital;
+  }
+
+  if (unitDescription) {
+    unitDescription.textContent =
+      `Você faz parte da unidade ${demoUser.hospital.replace("Aurora ", "")}.`;
+  }
+
+  if (hospitalPageName) {
+    hospitalPageName.textContent =
+      demoUser.hospital;
+  }
+
+  if (hospitalPageText) {
+    hospitalPageText.textContent =
+      `Seu hospital (${demoUser.hospital}) será identificado automaticamente através da sua integração com o Discord.`;
+  }
+
+  const initial =
+    demoUser.name.charAt(0).toUpperCase();
+
+  document
+    .querySelectorAll(".avatar, .big-avatar")
+    .forEach(el => {
+      el.textContent = initial;
+    });
 }
 
-// Navegação
-document.querySelectorAll(".nav-item").forEach(button => {
-  button.addEventListener("click", () => {
 
-    const section = button.dataset.section;
 
-    // PROTEÇÃO DA ÁREA DA GESTÃO
-    if (section === "management" && !managementAccess) {
+// ========================================
+// NAVEGAÇÃO
+// ========================================
 
-      alert(
-        "🔒 ÁREA RESTRITA\n\n" +
-        "O Painel da Gestão é exclusivo para:\n\n" +
-        "👑 Diretor\n" +
-        "👑 Vice-diretor\n" +
-        "👑 Supervisão\n\n" +
-        "A verificação automática será feita pelo Discord."
-      );
+document
+  .querySelectorAll(".nav-item")
+  .forEach(button => {
 
-      return;
-    }
+    button.addEventListener(
+      "click",
+      () => {
 
-    // Remove o botão ativo anterior
-    document.querySelectorAll(".nav-item").forEach(b =>
-      b.classList.remove("active")
+        const section =
+          button.dataset.section;
+
+        // PROTEÇÃO DA ÁREA DA GESTÃO
+        if (
+          section === "management" &&
+          !managementAccess
+        ) {
+
+          alert(
+            "🔒 ÁREA RESTRITA\n\n" +
+            "O Painel da Gestão é exclusivo para:\n\n" +
+            "👑 Diretor\n" +
+            "👑 Vice-diretor\n" +
+            "👑 Supervisão\n\n" +
+            "A verificação automática será feita pelo Discord."
+          );
+
+          return;
+        }
+
+        document
+          .querySelectorAll(".nav-item")
+          .forEach(b =>
+            b.classList.remove("active")
+          );
+
+        button.classList.add("active");
+
+        document
+          .querySelectorAll(".content-section")
+          .forEach(s =>
+            s.classList.remove("active-section")
+          );
+
+        const selectedSection =
+          document.getElementById(section);
+
+        if (selectedSection) {
+          selectedSection.classList.add(
+            "active-section"
+          );
+        }
+
+        const titles = {
+
+          dashboard:
+            "Olá, " +
+            demoUser.name +
+            " 👋",
+
+          hours:
+            "Minhas Horas",
+
+          hospital:
+            "Meu Hospital",
+
+          info:
+            "Informações",
+
+          management:
+            "Painel da Gestão 👑"
+        };
+
+        const pageTitle =
+          document.getElementById("pageTitle");
+
+        if (pageTitle) {
+          pageTitle.textContent =
+            titles[section];
+        }
+
+      }
     );
-
-    // Ativa o botão clicado
-    button.classList.add("active");
-
-    // Esconde todas as páginas
-    document.querySelectorAll(".content-section").forEach(s =>
-      s.classList.remove("active-section")
-    );
-
-    // Mostra a página selecionada
-    document.getElementById(section).classList.add("active-section");
-
-    const titles = {
-      dashboard: "Olá, " + demoUser.name + " 👋",
-      hours: "Minhas Horas",
-      hospital: "Meu Hospital",
-      info: "Informações",
-      management: "Painel da Gestão 👑"
-    };
-
-    document.getElementById("pageTitle").textContent = titles[section];
-
   });
-});
+
+
 
 // ========================================
 // LOGIN COM DISCORD VIA CLOUDFLARE
 // ========================================
 
-document.getElementById("discordLogin").addEventListener("click", () => {
+const discordLogin =
+  document.getElementById("discordLogin");
 
-  window.location.href =
-    "https://portal-hospital-aurora.gtmiguel278.workers.dev/login";
+if (discordLogin) {
 
-});
+  discordLogin.addEventListener(
+    "click",
+    () => {
 
-// Sair
-document.getElementById("logoutButton").addEventListener("click", () => {
-  document.getElementById("portalScreen").classList.remove("active");
-  document.getElementById("loginScreen").classList.add("active");
-});
+      window.location.href =
+        "https://portal-hospital-aurora.gtmiguel278.workers.dev/login";
 
-// Inicialização
+    }
+  );
+}
+
+
+
+// ========================================
+// SAIR
+// ========================================
+
+const logoutButton =
+  document.getElementById("logoutButton");
+
+if (logoutButton) {
+
+  logoutButton.addEventListener(
+    "click",
+    () => {
+
+      document
+        .getElementById("portalScreen")
+        .classList.remove("active");
+
+      document
+        .getElementById("loginScreen")
+        .classList.add("active");
+
+    }
+  );
+}
+
+
+
+// ========================================
+// INICIALIZAÇÃO
+// ========================================
+
 setUser(demoUser);
 updateDashboard();
+
+
 
 // ========================================
 // PAINEL DA GESTÃO - FILTROS
 // ========================================
 
-const employeeSearch = document.getElementById("employeeSearch");
-const hospitalFilter = document.getElementById("hospitalFilter");
-const statusFilter = document.getElementById("statusFilter");
+const employeeSearch =
+  document.getElementById("employeeSearch");
+
+const hospitalFilter =
+  document.getElementById("hospitalFilter");
+
+const statusFilter =
+  document.getElementById("statusFilter");
 
 function filterEmployees() {
-  const employees = document.querySelectorAll(".employee-data");
 
-  const searchValue = employeeSearch
-    ? employeeSearch.value.toLowerCase()
-    : "";
+  const employees =
+    document.querySelectorAll(
+      ".employee-data"
+    );
 
-  const hospitalValue = hospitalFilter
-    ? hospitalFilter.value
-    : "all";
+  const searchValue =
+    employeeSearch
+      ? employeeSearch.value.toLowerCase()
+      : "";
 
-  const statusValue = statusFilter
-    ? statusFilter.value
-    : "all";
+  const hospitalValue =
+    hospitalFilter
+      ? hospitalFilter.value
+      : "all";
 
-  employees.forEach((employee) => {
-    const name = employee.dataset.name.toLowerCase();
-    const hospital = employee.dataset.hospital;
-    const status = employee.dataset.status;
+  const statusValue =
+    statusFilter
+      ? statusFilter.value
+      : "all";
 
-    const matchesSearch = name.includes(searchValue);
+  employees.forEach(employee => {
+
+    const name =
+      employee.dataset.name
+        ? employee.dataset.name.toLowerCase()
+        : "";
+
+    const hospital =
+      employee.dataset.hospital;
+
+    const status =
+      employee.dataset.status;
+
+    const matchesSearch =
+      name.includes(searchValue);
 
     const matchesHospital =
       hospitalValue === "all" ||
@@ -210,32 +500,52 @@ function filterEmployees() {
       matchesHospital &&
       matchesStatus
     ) {
-      employee.style.display = "grid";
+
+      employee.style.display =
+        "grid";
+
     } else {
-      employee.style.display = "none";
+
+      employee.style.display =
+        "none";
+
     }
+
   });
 }
 
 if (employeeSearch) {
-  employeeSearch.addEventListener("input", filterEmployees);
+
+  employeeSearch.addEventListener(
+    "input",
+    filterEmployees
+  );
+
 }
 
 if (hospitalFilter) {
-  hospitalFilter.addEventListener("change", filterEmployees);
+
+  hospitalFilter.addEventListener(
+    "change",
+    filterEmployees
+  );
+
 }
 
 if (statusFilter) {
-  statusFilter.addEventListener("change", filterEmployees);
+
+  statusFilter.addEventListener(
+    "change",
+    filterEmployees
+  );
+
 }
+
+
 
 // ========================================
 // CONTROLE DE ACESSO À GESTÃO
 // ========================================
-
-// Modo demonstração
-// Futuramente será substituído pela
-// verificação dos cargos do Discord.
 
 const managementRoles = [
   "Diretor",
@@ -245,52 +555,61 @@ const managementRoles = [
 
 let managementAccess = false;
 
+
+
 // ========================================
 // RETORNO DO LOGIN DO DISCORD
 // ========================================
 
-const urlParams = new URLSearchParams(window.location.search);
+const urlParams =
+  new URLSearchParams(
+    window.location.search
+  );
 
-const discordUser = urlParams.get("discord_user");
-const discordHospital = urlParams.get("hospital");
-const discordRole = urlParams.get("role");
-const discordManagement = urlParams.get("management");
+const discordUser =
+  urlParams.get("discord_user");
+
+const discordHospital =
+  urlParams.get("hospital");
+
+const discordRole =
+  urlParams.get("role");
+
+const discordManagement =
+  urlParams.get("management");
 
 if (discordUser) {
 
-  // Atualiza os dados do usuário
-  demoUser.name = discordUser;
+  demoUser.name =
+    discordUser;
 
   if (discordHospital) {
-    demoUser.hospital = discordHospital;
+    demoUser.hospital =
+      discordHospital;
   }
 
   if (discordRole) {
-    demoUser.role = discordRole;
+    demoUser.role =
+      discordRole;
   }
 
-  // Atualiza acesso à gestão
-  managementAccess = discordManagement === "true";
+  managementAccess =
+    discordManagement === "true";
 
-  // Esconde a tela de login
-  document.getElementById("loginScreen").classList.remove("active");
+  document
+    .getElementById("loginScreen")
+    .classList.remove("active");
 
-  // Abre o portal
-  document.getElementById("portalScreen").classList.add("active");
+  document
+    .getElementById("portalScreen")
+    .classList.add("active");
 
-  // Atualiza informações na tela
   setUser(demoUser);
 
- // Os dados da URL são mantidos para o sistema de bate-ponto
-/*
-window.history.replaceState(
-  {},
-  document.title,
-  window.location.pathname
-);
-*/
+}
 
-  }
+
+
 // ========================================
 // SINCRONIZAÇÃO DE FUNCIONÁRIOS DO DISCORD
 // ========================================
@@ -299,154 +618,310 @@ const EMPLOYEES_API =
   "https://portal-hospital-aurora.gtmiguel278.workers.dev/employees";
 
 async function loadEmployees() {
+
   try {
-    const response = await fetch(EMPLOYEES_API);
+
+    const response =
+      await fetch(
+        EMPLOYEES_API
+      );
 
     if (!response.ok) {
-      throw new Error("Erro ao buscar funcionários");
+
+      throw new Error(
+        "Erro ao buscar funcionários"
+      );
+
     }
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
-    const employees = data.employees || [];
+    const employees =
+      data.employees || [];
 
-    // Elementos dos números da Gestão
+
+
+    // ========================================
+    // ELEMENTOS DOS NÚMEROS DA GESTÃO
+    // ========================================
+
     const totalEmployees =
-      document.getElementById("totalEmployees");
+      document.getElementById(
+        "totalEmployees"
+      );
 
     const capitalEmployees =
-      document.getElementById("capitalEmployees");
+      document.getElementById(
+        "capitalEmployees"
+      );
 
     const northEmployees =
-      document.getElementById("northEmployees");
+      document.getElementById(
+        "northEmployees"
+      );
 
 
-    // Calcular hospitais
-    const capitalCount = employees.filter(
-      employee => employee.hospital === "Aurora Capital"
-    ).length;
 
-    const northCount = employees.filter(
-      employee => employee.hospital === "Aurora North"
-    ).length;
+    // ========================================
+    // CALCULAR HOSPITAIS
+    // ========================================
+
+    const capitalCount =
+      employees.filter(
+        employee =>
+          employee.hospital ===
+          "Aurora Capital"
+      ).length;
+
+    const northCount =
+      employees.filter(
+        employee =>
+          employee.hospital ===
+          "Aurora North"
+      ).length;
 
 
-    // Atualizar números
+
+    // ========================================
+    // ATUALIZAR NÚMEROS
+    // ========================================
+
     if (totalEmployees) {
-      totalEmployees.textContent = employees.length;
+
+      totalEmployees.textContent =
+        employees.length;
+
     }
 
     if (capitalEmployees) {
-      capitalEmployees.textContent = capitalCount;
+
+      capitalEmployees.textContent =
+        capitalCount;
+
     }
 
     if (northEmployees) {
-      northEmployees.textContent = northCount;
+
+      northEmployees.textContent =
+        northCount;
+
     }
 
 
-    // Tabela de funcionários
+
+    // ========================================
+    // TABELA DE FUNCIONÁRIOS
+    // ========================================
+
     const employeesTable =
-      document.querySelector(".employees-table");
+      document.querySelector(
+        ".employees-table"
+      );
 
-    if (!employeesTable) return;
+    if (!employeesTable) {
+      return;
+    }
 
 
-    // Remover funcionários antigos,
-    // mantendo o cabeçalho
+
+    // Remover funcionários antigos
     const oldEmployees =
-      employeesTable.querySelectorAll(".employee-data");
+      employeesTable.querySelectorAll(
+        ".employee-data"
+      );
 
-    oldEmployees.forEach(employee => {
-      employee.remove();
-    });
-
-
-    // Criar funcionários reais
-    employees.forEach(employee => {
-
-      const hospitalClass =
-        employee.hospital === "Aurora Capital"
-          ? "capital-badge"
-          : "north-badge";
-
-      const hospitalName =
-        employee.hospital === "Aurora Capital"
-          ? "Capital"
-          : "North";
+    oldEmployees.forEach(
+      employee =>
+        employee.remove()
+    );
 
 
-      const row = document.createElement("div");
 
-      row.className =
-        "employee-row employee-data";
+    // ========================================
+    // CRIAR FUNCIONÁRIOS REAIS
+    // ========================================
 
-      row.dataset.name =
-        employee.name.toLowerCase();
+    employees.forEach(
+      employee => {
 
-      row.dataset.hospital =
-        hospitalName;
+        const hospitalClass =
+          employee.hospital ===
+          "Aurora Capital"
+            ? "capital-badge"
+            : "north-badge";
 
-      row.dataset.status =
-        "pending";
+        const hospitalName =
+          employee.hospital ===
+          "Aurora Capital"
+            ? "Capital"
+            : "North";
 
 
-      const firstLetter =
-        employee.name.charAt(0).toUpperCase();
+
+        const row =
+          document.createElement(
+            "div"
+          );
+
+        row.className =
+          "employee-row employee-data";
 
 
-      row.innerHTML = `
 
-        <div class="employee-name">
+        // Dados usados pelos filtros
 
-          <div class="employee-avatar">
-            ${firstLetter}
+        row.dataset.name =
+          employee.name.toLowerCase();
+
+        row.dataset.hospital =
+          hospitalName;
+
+
+
+        // IMPORTANTE:
+        // Mantemos o filtro atual da META
+
+        row.dataset.status =
+          employee.completed
+            ? "completed"
+            : "pending";
+
+
+
+        // Novo status do ponto
+
+        row.dataset.pointStatus =
+          employee.pointStatus ||
+          "closed";
+
+
+
+        const firstLetter =
+          employee.name
+            .charAt(0)
+            .toUpperCase();
+
+
+
+        // ========================================
+        // STATUS DO PONTO
+        // ========================================
+
+        let pointStatusText =
+          "⚪ Ponto Fechado";
+
+        let pointStatusClass =
+          "point-closed-status";
+
+        if (
+          employee.pointStatus ===
+          "active"
+        ) {
+
+          pointStatusText =
+            "🟢 Ponto Aberto";
+
+          pointStatusClass =
+            "point-open-status";
+
+        } else if (
+          employee.pointStatus ===
+          "paused"
+        ) {
+
+          pointStatusText =
+            "🟡 Ponto Pausado";
+
+          pointStatusClass =
+            "point-paused-status";
+
+        }
+
+
+
+        // ========================================
+        // LINHA DO FUNCIONÁRIO
+        // ========================================
+
+        row.innerHTML = `
+
+          <div class="employee-name">
+
+            <div class="employee-avatar">
+              ${firstLetter}
+            </div>
+
+            <div>
+
+              <strong>
+                ${employee.name}
+              </strong>
+
+              <div class="point-status ${pointStatusClass}">
+                ${pointStatusText}
+              </div>
+
+            </div>
+
           </div>
 
-          ${employee.name}
 
-        </div>
+          <div>
 
+            <span class="hospital-badge ${hospitalClass}">
+              ${hospitalName}
+            </span>
 
-        <div>
-
-          <span class="hospital-badge ${hospitalClass}">
-            ${hospitalName}
-          </span>
-
-        </div>
+          </div>
 
 
-        <div>
-          ${employee.role}
-        </div>
+          <div>
+            ${employee.role}
+          </div>
 
 
-       <div>
-  <strong>${Math.floor(employee.minutes / 60)}h ${String(employee.minutes % 60).padStart(2, "0")}min</strong>
-</div>
+          <div>
 
-<div>
-  <span class="status ${
-    employee.completed
-      ? "completed-status"
-      : "pending-status"
-  }">
-    ${
-      employee.completed
-        ? "✅ Meta concluída"
-        : employee.minutes > 0
-          ? "⏳ Meta em andamento"
-          : "⚪ Aguardando horas"
-    }
-  </span>
-</div>
-      `;
+            <strong>
+              ${Math.floor(employee.minutes / 60)}h
+              ${String(
+                employee.minutes % 60
+              ).padStart(2, "0")}min
+            </strong>
+
+          </div>
 
 
-      employeesTable.appendChild(row);
+          <div>
 
-    });
+            <span class="status ${
+              employee.completed
+                ? "completed-status"
+                : "pending-status"
+            }">
+
+              ${
+                employee.completed
+                  ? "✅ Meta concluída"
+                  : employee.minutes > 0
+                    ? "⏳ Meta em andamento"
+                    : "⚪ Aguardando horas"
+              }
+
+            </span>
+
+          </div>
+
+        `;
+
+        employeesTable.appendChild(
+          row
+        );
+
+      }
+    );
+
 
 
   } catch (error) {
@@ -457,11 +932,15 @@ async function loadEmployees() {
     );
 
   }
+
 }
 
 
-// Carregar funcionários automaticamente
+
+// Carregar funcionários
 loadEmployees();
+
+
 
 // ========================================
 // SISTEMA DE BATE-PONTO
@@ -471,28 +950,51 @@ const API_URL =
   "https://portal-hospital-aurora.gtmiguel278.workers.dev";
 
 
-// Pegar dados do usuário que vieram do login Discord
 
-const clockUrlParams = new URLSearchParams(window.location.search);
+// Dados do usuário
+const clockUrlParams =
+  new URLSearchParams(
+    window.location.search
+  );
 
-const discordId = clockUrlParams.get("discord_id");
-const discordName = clockUrlParams.get("discord_user");
-const loggedHospital = clockUrlParams.get("hospital");
-const loggedRole = clockUrlParams.get("role");
+const discordId =
+  clockUrlParams.get("discord_id");
 
-// Elementos dos botões
+const discordName =
+  clockUrlParams.get("discord_user");
+
+const loggedHospital =
+  clockUrlParams.get("hospital");
+
+const loggedRole =
+  clockUrlParams.get("role");
+
+
+
+// ========================================
+// ELEMENTOS DOS BOTÕES
+// ========================================
 
 const clockInButton =
-  document.getElementById("clockInButton");
+  document.getElementById(
+    "clockInButton"
+  );
 
 const breakStartButton =
-  document.getElementById("breakStartButton");
+  document.getElementById(
+    "breakStartButton"
+  );
 
 const breakEndButton =
-  document.getElementById("breakEndButton");
+  document.getElementById(
+    "breakEndButton"
+  );
 
 const clockOutButton =
-  document.getElementById("clockOutButton");
+  document.getElementById(
+    "clockOutButton"
+  );
+
 
 
 // ========================================
@@ -501,19 +1003,25 @@ const clockOutButton =
 
 function formatWorkedTime(minutes) {
 
-  const safe = Math.max(
-    0,
-    Math.floor(minutes)
-  );
+  const safe =
+    Math.max(
+      0,
+      Math.floor(minutes)
+    );
 
   const hours =
-    Math.floor(safe / 60);
+    Math.floor(
+      safe / 60
+    );
 
   const mins =
     safe % 60;
 
-  return `${hours}h ${String(mins).padStart(2, "0")}min`;
+  return `${hours}h ${String(
+    mins
+  ).padStart(2, "0")}min`;
 }
+
 
 
 // ========================================
@@ -522,20 +1030,30 @@ function formatWorkedTime(minutes) {
 
 async function updateMyHours() {
 
-  if (!discordId) return;
+  if (!discordId) {
+    return;
+  }
 
   try {
 
-    const response = await fetch(
-      `${API_URL}/my-hours?discord_id=${encodeURIComponent(discordId)}`
-    );
+    const response =
+      await fetch(
+        `${API_URL}/my-hours?discord_id=${encodeURIComponent(discordId)}`
+      );
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
     if (!response.ok) {
-      console.error(data.error);
+
+      console.error(
+        data.error
+      );
+
       return;
     }
+
+
 
     const percentage =
       Math.min(
@@ -543,51 +1061,88 @@ async function updateMyHours() {
         (data.minutes / data.goal) * 100
       );
 
+
+
     const hoursValue =
-      document.getElementById("hoursValue");
+      document.getElementById(
+        "hoursValue"
+      );
 
     const statHours =
-      document.getElementById("statHours");
+      document.getElementById(
+        "statHours"
+      );
 
     const statRemaining =
-      document.getElementById("statRemaining");
+      document.getElementById(
+        "statRemaining"
+      );
 
     const progressBar =
-      document.getElementById("progressBar");
+      document.getElementById(
+        "progressBar"
+      );
 
     const progressText =
-      document.getElementById("progressText");
+      document.getElementById(
+        "progressText"
+      );
 
     const remainingText =
-      document.getElementById("remainingText");
+      document.getElementById(
+        "remainingText"
+      );
 
     const statusBox =
-      document.getElementById("statusBox");
+      document.getElementById(
+        "statusBox"
+      );
 
+
+
+    // ========================================
+    // HORAS
+    // ========================================
 
     if (hoursValue) {
+
       hoursValue.textContent =
-        formatWorkedTime(data.minutes);
+        formatWorkedTime(
+          data.minutes
+        );
+
     }
 
     if (statHours) {
+
       statHours.textContent =
-        formatWorkedTime(data.minutes);
+        formatWorkedTime(
+          data.minutes
+        );
+
     }
 
     if (statRemaining) {
+
       statRemaining.textContent =
-        formatWorkedTime(data.remaining);
+        formatWorkedTime(
+          data.remaining
+        );
+
     }
 
     if (progressBar) {
+
       progressBar.style.width =
         `${percentage}%`;
+
     }
 
     if (progressText) {
+
       progressText.textContent =
         `${Math.floor(percentage)}% concluído`;
+
     }
 
     if (remainingText) {
@@ -595,15 +1150,24 @@ async function updateMyHours() {
       remainingText.textContent =
         data.completed
           ? "🎉 Meta semanal concluída!"
-          : `Faltam ${formatWorkedTime(data.remaining)}`;
+          : `Faltam ${formatWorkedTime(
+              data.remaining
+            )}`;
+
     }
 
 
-    // Status visual
+
+    // ========================================
+    // STATUS VISUAL
+    // ========================================
 
     if (statusBox) {
 
-      if (data.status === "active") {
+      if (
+        data.status ===
+        "active"
+      ) {
 
         statusBox.textContent =
           "🟢 Ponto em andamento";
@@ -611,7 +1175,10 @@ async function updateMyHours() {
         statusBox.className =
           "status-box active";
 
-      } else if (data.status === "paused") {
+      } else if (
+        data.status ===
+        "paused"
+      ) {
 
         statusBox.textContent =
           "🟡 Você está em pausa";
@@ -619,7 +1186,9 @@ async function updateMyHours() {
         statusBox.className =
           "status-box pending";
 
-      } else if (data.completed) {
+      } else if (
+        data.completed
+      ) {
 
         statusBox.textContent =
           "✅ Meta semanal concluída";
@@ -634,39 +1203,52 @@ async function updateMyHours() {
 
         statusBox.className =
           "status-box pending";
+
       }
+
     }
 
 
-    // Mostrar/esconder botões conforme situação
+
+    // ========================================
+    // BOTÕES
+    // ========================================
 
     if (clockInButton) {
+
       clockInButton.style.display =
         data.status === "closed"
           ? "block"
           : "none";
+
     }
 
     if (breakStartButton) {
+
       breakStartButton.style.display =
         data.status === "active"
           ? "block"
           : "none";
+
     }
 
     if (breakEndButton) {
+
       breakEndButton.style.display =
         data.status === "paused"
           ? "block"
           : "none";
+
     }
 
     if (clockOutButton) {
+
       clockOutButton.style.display =
         data.status === "active" ||
         data.status === "paused"
           ? "block"
           : "none";
+
     }
 
   } catch (error) {
@@ -675,8 +1257,11 @@ async function updateMyHours() {
       "Erro ao atualizar horas:",
       error
     );
+
   }
+
 }
+
 
 
 // ========================================
@@ -690,9 +1275,11 @@ if (clockInButton) {
     async () => {
 
       if (!discordId) {
+
         alert(
           "Faça login pelo Discord novamente."
         );
+
         return;
       }
 
@@ -710,10 +1297,17 @@ if (clockInButton) {
               },
 
               body: JSON.stringify({
-                discord_id: discordId,
-                discord_name: discordName,
-                hospital: loggedHospital,
-                role: loggedRole
+                discord_id:
+                  discordId,
+
+                discord_name:
+                  discordName,
+
+                hospital:
+                  loggedHospital,
+
+                role:
+                  loggedRole
               })
             }
           );
@@ -722,24 +1316,36 @@ if (clockInButton) {
           await response.json();
 
         if (!response.ok) {
-          alert(data.error);
+
+          alert(
+            data.error
+          );
+
           return;
         }
 
         await updateMyHours();
 
+        // Atualizar Gestão
+        await loadEmployees();
+
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
 
         alert(
           "Erro ao iniciar o ponto."
         );
+
       }
 
     }
   );
+
 }
+
 
 
 // ========================================
@@ -766,7 +1372,8 @@ if (breakStartButton) {
               },
 
               body: JSON.stringify({
-                discord_id: discordId
+                discord_id:
+                  discordId
               })
             }
           );
@@ -775,24 +1382,35 @@ if (breakStartButton) {
           await response.json();
 
         if (!response.ok) {
-          alert(data.error);
+
+          alert(
+            data.error
+          );
+
           return;
         }
 
         await updateMyHours();
 
+        await loadEmployees();
+
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
 
         alert(
           "Erro ao iniciar a pausa."
         );
+
       }
 
     }
   );
+
 }
+
 
 
 // ========================================
@@ -819,7 +1437,8 @@ if (breakEndButton) {
               },
 
               body: JSON.stringify({
-                discord_id: discordId
+                discord_id:
+                  discordId
               })
             }
           );
@@ -828,24 +1447,35 @@ if (breakEndButton) {
           await response.json();
 
         if (!response.ok) {
-          alert(data.error);
+
+          alert(
+            data.error
+          );
+
           return;
         }
 
         await updateMyHours();
 
+        await loadEmployees();
+
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
 
         alert(
           "Erro ao retomar o ponto."
         );
+
       }
 
     }
   );
+
 }
+
 
 
 // ========================================
@@ -872,7 +1502,8 @@ if (clockOutButton) {
               },
 
               body: JSON.stringify({
-                discord_id: discordId
+                discord_id:
+                  discordId
               })
             }
           );
@@ -881,24 +1512,35 @@ if (clockOutButton) {
           await response.json();
 
         if (!response.ok) {
-          alert(data.error);
+
+          alert(
+            data.error
+          );
+
           return;
         }
 
         await updateMyHours();
 
+        await loadEmployees();
+
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
 
         alert(
           "Erro ao encerrar o ponto."
         );
+
       }
 
     }
   );
+
 }
+
 
 
 // ========================================
@@ -907,12 +1549,12 @@ if (clockOutButton) {
 
 updateMyHours();
 
-// Atualiza automaticamente a cada 30 segundos
-
 setInterval(
   updateMyHours,
   30000
 );
+
+
 
 // ========================================
 // TOP SEMANAL
@@ -921,10 +1563,12 @@ setInterval(
 const WEEKLY_RANKING_API =
   "https://portal-hospital-aurora.gtmiguel278.workers.dev/weekly-ranking";
 
-
 function formatRankingTime(minutes) {
 
-  const hours = Math.floor(minutes / 60);
+  const hours =
+    Math.floor(
+      minutes / 60
+    );
 
   const remainingMinutes =
     minutes % 60;
@@ -932,16 +1576,16 @@ function formatRankingTime(minutes) {
   return `${hours}h ${String(
     remainingMinutes
   ).padStart(2, "0")}min`;
-
 }
-
 
 async function loadWeeklyRanking() {
 
   try {
 
     const response =
-      await fetch(WEEKLY_RANKING_API);
+      await fetch(
+        WEEKLY_RANKING_API
+      );
 
     if (!response.ok) {
 
@@ -958,30 +1602,50 @@ async function loadWeeklyRanking() {
       data.ranking || [];
 
 
-    // Elementos do TOP 3
+
+    // ========================================
+    // ELEMENTOS DO TOP 3
+    // ========================================
 
     const firstName =
-      document.getElementById("firstPlaceName");
+      document.getElementById(
+        "firstPlaceName"
+      );
 
     const firstHours =
-      document.getElementById("firstPlaceHours");
+      document.getElementById(
+        "firstPlaceHours"
+      );
 
     const secondName =
-      document.getElementById("secondPlaceName");
+      document.getElementById(
+        "secondPlaceName"
+      );
 
     const secondHours =
-      document.getElementById("secondPlaceHours");
+      document.getElementById(
+        "secondPlaceHours"
+      );
 
     const thirdName =
-      document.getElementById("thirdPlaceName");
+      document.getElementById(
+        "thirdPlaceName"
+      );
 
     const thirdHours =
-      document.getElementById("thirdPlaceHours");
+      document.getElementById(
+        "thirdPlaceHours"
+      );
+
 
 
     // 1º Lugar
 
-    if (ranking[0] && firstName && firstHours) {
+    if (
+      ranking[0] &&
+      firstName &&
+      firstHours
+    ) {
 
       firstName.textContent =
         ranking[0].name;
@@ -994,9 +1658,14 @@ async function loadWeeklyRanking() {
     }
 
 
+
     // 2º Lugar
 
-    if (ranking[1] && secondName && secondHours) {
+    if (
+      ranking[1] &&
+      secondName &&
+      secondHours
+    ) {
 
       secondName.textContent =
         ranking[1].name;
@@ -1009,9 +1678,14 @@ async function loadWeeklyRanking() {
     }
 
 
+
     // 3º Lugar
 
-    if (ranking[2] && thirdName && thirdHours) {
+    if (
+      ranking[2] &&
+      thirdName &&
+      thirdHours
+    ) {
 
       thirdName.textContent =
         ranking[2].name;
@@ -1034,32 +1708,48 @@ async function loadWeeklyRanking() {
 
 }
 
+
+
 // Carregar TOP SEMANAL
+
 loadWeeklyRanking();
 
-// Atualizar ranking automaticamente a cada 30 segundos
+
+
+// Atualizar ranking a cada 30 segundos
+
 setInterval(
   loadWeeklyRanking,
   30000
 );
+
+
 
 // ========================================
 // MODO CLARO / ESCURO
 // ========================================
 
 const themeToggle =
-  document.getElementById("themeToggle");
+  document.getElementById(
+    "themeToggle"
+  );
 
-// Verificar tema salvo anteriormente
 const savedTheme =
-  localStorage.getItem("hospitalAuroraTheme");
+  localStorage.getItem(
+    "hospitalAuroraTheme"
+  );
 
-// Aplicar tema salvo
-if (savedTheme === "dark") {
-  document.body.classList.add("dark-mode");
+if (
+  savedTheme ===
+  "dark"
+) {
+
+  document.body.classList.add(
+    "dark-mode"
+  );
+
 }
 
-// Alternar tema
 if (themeToggle) {
 
   themeToggle.addEventListener(
@@ -1070,16 +1760,16 @@ if (themeToggle) {
         "dark-mode"
       );
 
-      // Verificar qual tema está ativo
       const isDark =
         document.body.classList.contains(
           "dark-mode"
         );
 
-      // Salvar preferência
       localStorage.setItem(
         "hospitalAuroraTheme",
-        isDark ? "dark" : "light"
+        isDark
+          ? "dark"
+          : "light"
       );
 
     }
