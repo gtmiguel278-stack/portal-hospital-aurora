@@ -1434,3 +1434,173 @@ body.dark-mode .point-paused-status {
 body.dark-mode .point-closed-status {
   color: #9ca3af;
 }
+
+/* ========================================
+   🔔 NOTIFICAÇÃO DE PONTO
+======================================== */
+
+#auroraPointNotification {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  width: 360px;
+  max-width: calc(100vw - 48px);
+
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  padding: 18px;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-left: 4px solid #173caa;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.15);
+
+  z-index: 99999;
+
+  opacity: 0;
+  transform: translateX(120%);
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+
+  font-family: inherit;
+}
+
+#auroraPointNotification.aurora-notification-show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+#auroraPointNotification.aurora-notification-hide {
+  opacity: 0;
+  transform: translateX(120%);
+}
+
+
+/* Ícone */
+
+.aurora-notification-icon {
+  width: 42px;
+  height: 42px;
+
+  min-width: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eef2ff;
+
+  border-radius: 50%;
+
+  font-size: 20px;
+}
+
+
+/* Conteúdo */
+
+.aurora-notification-content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.aurora-notification-content strong {
+  font-size: 15px;
+  color: #111827;
+}
+
+.aurora-notification-content span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #173caa;
+}
+
+.aurora-notification-content small {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #6b7280;
+}
+
+
+/* Botão fechar */
+
+.aurora-notification-close {
+  border: none;
+  background: transparent;
+
+  font-size: 22px;
+  line-height: 1;
+
+  color: #9ca3af;
+
+  cursor: pointer;
+
+  padding: 0;
+}
+
+.aurora-notification-close:hover {
+  color: #111827;
+}
+
+
+/* ========================================
+   MODO ESCURO
+======================================== */
+
+body.dark-mode #auroraPointNotification {
+  background: #111827;
+  border-color: #374151;
+  border-left-color: #4f6fdc;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.45);
+}
+
+body.dark-mode .aurora-notification-icon {
+  background: #1e293b;
+}
+
+body.dark-mode .aurora-notification-content strong {
+  color: #f9fafb;
+}
+
+body.dark-mode .aurora-notification-content span {
+  color: #93a8ff;
+}
+
+body.dark-mode .aurora-notification-content small {
+  color: #9ca3af;
+}
+
+body.dark-mode .aurora-notification-close {
+  color: #9ca3af;
+}
+
+
+/* ========================================
+   CELULAR
+======================================== */
+
+@media (max-width: 600px) {
+
+  #auroraPointNotification {
+    top: 15px;
+    right: 15px;
+    left: 15px;
+
+    width: auto;
+    max-width: none;
+  }
+
+}
