@@ -7,11 +7,13 @@ const DISCORD_CLIENT_ID = "1545967147132653678";
 const DISCORD_REDIRECT_URI =
   "https://gtmiguel278-stack.github.io/portal-hospital-aurora/";
 
+
 // ======================================================
 // PORTAL HOSPITAL AURORA
 // ======================================================
 
 const WEEKLY_GOAL = 15 * 60;
+
 let workedMinutes = 0;
 
 const demoUser = {
@@ -21,28 +23,52 @@ const demoUser = {
   role: "Não identificado"
 };
 
+
+// ========================================
+// FORMATAR TEMPO
+// ========================================
+
 function formatTime(minutes) {
-  const safe = Math.max(0, Math.floor(minutes));
-  const hours = Math.floor(safe / 60);
-  const mins = safe % 60;
+
+  const safe =
+    Math.max(
+      0,
+      Math.floor(minutes)
+    );
+
+  const hours =
+    Math.floor(safe / 60);
+
+  const mins =
+    safe % 60;
 
   return `${hours}h ${String(mins).padStart(2, "0")}min`;
 }
 
+
+// ========================================
+// ATUALIZAR DASHBOARD
+// ========================================
+
 function updateDashboard() {
 
-  const percentage = Math.min(
-    100,
-    Math.round((workedMinutes / WEEKLY_GOAL) * 100)
-  );
+  const percentage =
+    Math.min(
+      100,
+      Math.round(
+        (workedMinutes / WEEKLY_GOAL) * 100
+      )
+    );
 
-  const remaining = Math.max(
-    0,
-    WEEKLY_GOAL - workedMinutes
-  );
+  const remaining =
+    Math.max(
+      0,
+      WEEKLY_GOAL - workedMinutes
+    );
 
   const completed =
     workedMinutes >= WEEKLY_GOAL;
+
 
   const hoursValue =
     document.getElementById("hoursValue");
@@ -74,54 +100,82 @@ function updateDashboard() {
   const circleProgress =
     document.getElementById("circleProgress");
 
+
   if (hoursValue) {
+
     hoursValue.textContent =
       formatTime(workedMinutes);
+
   }
+
 
   if (progressBar) {
+
     progressBar.style.width =
       percentage + "%";
+
   }
+
 
   if (progressText) {
+
     progressText.textContent =
       percentage + "% concluído";
+
   }
 
+
   if (remainingText) {
+
     remainingText.textContent =
       completed
         ? "Meta concluída!"
         : "Faltam " + formatTime(remaining);
+
   }
+
 
   if (statHours) {
+
     statHours.textContent =
       formatTime(workedMinutes);
+
   }
+
 
   if (statRemaining) {
+
     statRemaining.textContent =
       formatTime(remaining);
+
   }
 
+
   if (statStatus) {
+
     statStatus.textContent =
       completed
         ? "Concluída ✓"
         : "Em andamento";
+
   }
+
 
   if (hoursLarge) {
+
     hoursLarge.textContent =
       formatTime(workedMinutes);
+
   }
 
+
   if (circlePercent) {
+
     circlePercent.textContent =
       percentage + "%";
+
   }
+
 
   if (circleProgress) {
 
@@ -130,7 +184,9 @@ function updateDashboard() {
 
     circleProgress.style.background =
       `conic-gradient(#173caa ${degrees}deg, #e9edf6 ${degrees}deg)`;
+
   }
+
 
   const dashboardStatus =
     document.getElementById("statusBox");
@@ -138,43 +194,61 @@ function updateDashboard() {
   const hoursStatus =
     document.getElementById("hoursStatus");
 
+
   if (completed) {
 
     if (dashboardStatus) {
+
       dashboardStatus.textContent =
         "✅ META SEMANAL CONCLUÍDA!";
 
       dashboardStatus.className =
         "status-box completed";
+
     }
 
+
     if (hoursStatus) {
+
       hoursStatus.textContent =
         "✅ Parabéns! Você concluiu sua carga semanal de 15 horas.";
 
       hoursStatus.className =
         "status-box completed";
+
     }
 
   } else {
 
     if (dashboardStatus) {
+
       dashboardStatus.textContent =
         "⏳ Meta semanal em andamento";
 
       dashboardStatus.className =
         "status-box pending";
+
     }
 
+
     if (hoursStatus) {
+
       hoursStatus.textContent =
         `⏳ Faltam ${formatTime(remaining)} para concluir sua meta.`;
 
       hoursStatus.className =
         "status-box pending";
+
     }
+
   }
+
 }
+
+
+// ========================================
+// ALTERAR HORAS
+// ========================================
 
 function changeHours(amount) {
 
@@ -188,7 +262,13 @@ function changeHours(amount) {
     );
 
   updateDashboard();
+
 }
+
+
+// ========================================
+// DEFINIR USUÁRIO
+// ========================================
 
 function setUser(user) {
 
@@ -203,6 +283,7 @@ function setUser(user) {
 
   demoUser.role =
     user.role || demoUser.role;
+
 
   const topName =
     document.getElementById("topName");
@@ -231,61 +312,98 @@ function setUser(user) {
   const hospitalPageText =
     document.getElementById("hospitalPageText");
 
+
   if (topName) {
+
     topName.textContent =
       demoUser.name;
+
   }
+
 
   if (userName) {
+
     userName.textContent =
       demoUser.name;
+
   }
+
 
   if (discordName) {
+
     discordName.textContent =
       demoUser.discord;
+
   }
+
 
   if (hospitalName) {
+
     hospitalName.textContent =
       demoUser.hospital;
+
   }
+
 
   if (roleName) {
+
     roleName.textContent =
       demoUser.role;
+
   }
+
 
   if (unitTitle) {
+
     unitTitle.textContent =
       demoUser.hospital;
+
   }
+
 
   if (unitDescription) {
+
     unitDescription.textContent =
-      `Você faz parte da unidade ${demoUser.hospital.replace("Aurora ", "")}.`;
+      `Você faz parte da unidade ${demoUser.hospital.replace(
+        "Aurora ",
+        ""
+      )}.`;
+
   }
+
 
   if (hospitalPageName) {
+
     hospitalPageName.textContent =
       demoUser.hospital;
+
   }
+
 
   if (hospitalPageText) {
+
     hospitalPageText.textContent =
       `Seu hospital (${demoUser.hospital}) será identificado automaticamente através da sua integração com o Discord.`;
+
   }
 
+
   const initial =
-    demoUser.name.charAt(0).toUpperCase();
+    demoUser.name
+      .charAt(0)
+      .toUpperCase();
+
 
   document
     .querySelectorAll(".avatar, .big-avatar")
     .forEach(el => {
-      el.textContent = initial;
-    });
-}
 
+      el.textContent =
+        initial;
+
+    });
+
+}
 
 
 // ========================================
@@ -303,7 +421,7 @@ document
         const section =
           button.dataset.section;
 
-        // PROTEÇÃO DA ÁREA DA GESTÃO
+
         if (
           section === "management" &&
           !managementAccess
@@ -319,7 +437,9 @@ document
           );
 
           return;
+
         }
+
 
         document
           .querySelectorAll(".nav-item")
@@ -327,7 +447,9 @@ document
             b.classList.remove("active")
           );
 
+
         button.classList.add("active");
+
 
         document
           .querySelectorAll(".content-section")
@@ -335,14 +457,19 @@ document
             s.classList.remove("active-section")
           );
 
+
         const selectedSection =
           document.getElementById(section);
 
+
         if (selectedSection) {
+
           selectedSection.classList.add(
             "active-section"
           );
+
         }
+
 
         const titles = {
 
@@ -362,28 +489,34 @@ document
 
           management:
             "Painel da Gestão 👑"
+
         };
+
 
         const pageTitle =
           document.getElementById("pageTitle");
 
+
         if (pageTitle) {
+
           pageTitle.textContent =
             titles[section];
+
         }
 
       }
     );
+
   });
 
 
-
 // ========================================
-// LOGIN COM DISCORD VIA CLOUDFLARE
+// LOGIN COM DISCORD
 // ========================================
 
 const discordLogin =
   document.getElementById("discordLogin");
+
 
 if (discordLogin) {
 
@@ -396,8 +529,8 @@ if (discordLogin) {
 
     }
   );
-}
 
+}
 
 
 // ========================================
@@ -406,6 +539,7 @@ if (discordLogin) {
 
 const logoutButton =
   document.getElementById("logoutButton");
+
 
 if (logoutButton) {
 
@@ -417,14 +551,15 @@ if (logoutButton) {
         .getElementById("portalScreen")
         .classList.remove("active");
 
+
       document
         .getElementById("loginScreen")
         .classList.add("active");
 
     }
   );
-}
 
+}
 
 
 // ========================================
@@ -432,8 +567,8 @@ if (logoutButton) {
 // ========================================
 
 setUser(demoUser);
-updateDashboard();
 
+updateDashboard();
 
 
 // ========================================
@@ -449,6 +584,7 @@ const hospitalFilter =
 const statusFilter =
   document.getElementById("statusFilter");
 
+
 function filterEmployees() {
 
   const employees =
@@ -456,20 +592,24 @@ function filterEmployees() {
       ".employee-data"
     );
 
+
   const searchValue =
     employeeSearch
       ? employeeSearch.value.toLowerCase()
       : "";
+
 
   const hospitalValue =
     hospitalFilter
       ? hospitalFilter.value
       : "all";
 
+
   const statusValue =
     statusFilter
       ? statusFilter.value
       : "all";
+
 
   employees.forEach(employee => {
 
@@ -478,22 +618,28 @@ function filterEmployees() {
         ? employee.dataset.name.toLowerCase()
         : "";
 
+
     const hospital =
       employee.dataset.hospital;
+
 
     const status =
       employee.dataset.status;
 
+
     const matchesSearch =
       name.includes(searchValue);
+
 
     const matchesHospital =
       hospitalValue === "all" ||
       hospital === hospitalValue;
 
+
     const matchesStatus =
       statusValue === "all" ||
       status === statusValue;
+
 
     if (
       matchesSearch &&
@@ -512,7 +658,9 @@ function filterEmployees() {
     }
 
   });
+
 }
+
 
 if (employeeSearch) {
 
@@ -523,6 +671,7 @@ if (employeeSearch) {
 
 }
 
+
 if (hospitalFilter) {
 
   hospitalFilter.addEventListener(
@@ -532,6 +681,7 @@ if (hospitalFilter) {
 
 }
 
+
 if (statusFilter) {
 
   statusFilter.addEventListener(
@@ -540,7 +690,6 @@ if (statusFilter) {
   );
 
 }
-
 
 
 // ========================================
@@ -556,7 +705,6 @@ const managementRoles = [
 let managementAccess = false;
 
 
-
 // ========================================
 // RETORNO DO LOGIN DO DISCORD
 // ========================================
@@ -565,6 +713,7 @@ const urlParams =
   new URLSearchParams(
     window.location.search
   );
+
 
 const discordUser =
   urlParams.get("discord_user");
@@ -578,44 +727,55 @@ const discordRole =
 const discordManagement =
   urlParams.get("management");
 
+
 if (discordUser) {
 
   demoUser.name =
     discordUser;
 
+
   if (discordHospital) {
+
     demoUser.hospital =
       discordHospital;
+
   }
 
+
   if (discordRole) {
+
     demoUser.role =
       discordRole;
+
   }
+
 
   managementAccess =
     discordManagement === "true";
+
 
   document
     .getElementById("loginScreen")
     .classList.remove("active");
 
+
   document
     .getElementById("portalScreen")
     .classList.add("active");
+
 
   setUser(demoUser);
 
 }
 
 
-
 // ========================================
-// SINCRONIZAÇÃO DE FUNCIONÁRIOS DO DISCORD
+// SINCRONIZAÇÃO DE FUNCIONÁRIOS
 // ========================================
 
 const EMPLOYEES_API =
   "https://portal-hospital-aurora.gtmiguel278.workers.dev/employees";
+
 
 async function loadEmployees() {
 
@@ -626,6 +786,7 @@ async function loadEmployees() {
         EMPLOYEES_API
       );
 
+
     if (!response.ok) {
 
       throw new Error(
@@ -634,27 +795,26 @@ async function loadEmployees() {
 
     }
 
+
     const data =
       await response.json();
+
 
     const employees =
       data.employees || [];
 
-
-
-    // ========================================
-    // ELEMENTOS DOS NÚMEROS DA GESTÃO
-    // ========================================
 
     const totalEmployees =
       document.getElementById(
         "totalEmployees"
       );
 
+
     const capitalEmployees =
       document.getElementById(
         "capitalEmployees"
       );
+
 
     const northEmployees =
       document.getElementById(
@@ -662,17 +822,13 @@ async function loadEmployees() {
       );
 
 
-
-    // ========================================
-    // CALCULAR HOSPITAIS
-    // ========================================
-
     const capitalCount =
       employees.filter(
         employee =>
           employee.hospital ===
           "Aurora Capital"
       ).length;
+
 
     const northCount =
       employees.filter(
@@ -682,11 +838,6 @@ async function loadEmployees() {
       ).length;
 
 
-
-    // ========================================
-    // ATUALIZAR NÚMEROS
-    // ========================================
-
     if (totalEmployees) {
 
       totalEmployees.textContent =
@@ -694,12 +845,14 @@ async function loadEmployees() {
 
     }
 
+
     if (capitalEmployees) {
 
       capitalEmployees.textContent =
         capitalCount;
 
     }
+
 
     if (northEmployees) {
 
@@ -709,38 +862,30 @@ async function loadEmployees() {
     }
 
 
-
-    // ========================================
-    // TABELA DE FUNCIONÁRIOS
-    // ========================================
-
     const employeesTable =
       document.querySelector(
         ".employees-table"
       );
 
+
     if (!employeesTable) {
+
       return;
+
     }
 
 
-
-    // Remover funcionários antigos
     const oldEmployees =
       employeesTable.querySelectorAll(
         ".employee-data"
       );
+
 
     oldEmployees.forEach(
       employee =>
         employee.remove()
     );
 
-
-
-    // ========================================
-    // CRIAR FUNCIONÁRIOS REAIS
-    // ========================================
 
     employees.forEach(
       employee => {
@@ -751,6 +896,7 @@ async function loadEmployees() {
             ? "capital-badge"
             : "north-badge";
 
+
         const hospitalName =
           employee.hospital ===
           "Aurora Capital"
@@ -758,29 +904,23 @@ async function loadEmployees() {
             : "North";
 
 
-
         const row =
           document.createElement(
             "div"
           );
 
+
         row.className =
           "employee-row employee-data";
 
 
-
-        // Dados usados pelos filtros
-
         row.dataset.name =
           employee.name.toLowerCase();
+
 
         row.dataset.hospital =
           hospitalName;
 
-
-
-        // IMPORTANTE:
-        // Mantemos o filtro atual da META
 
         row.dataset.status =
           employee.completed
@@ -788,13 +928,9 @@ async function loadEmployees() {
             : "pending";
 
 
-
-        // Novo status do ponto
-
         row.dataset.pointStatus =
           employee.pointStatus ||
           "closed";
-
 
 
         const firstLetter =
@@ -803,16 +939,13 @@ async function loadEmployees() {
             .toUpperCase();
 
 
-
-        // ========================================
-        // STATUS DO PONTO
-        // ========================================
-
         let pointStatusText =
           "⚪ Ponto Fechado";
 
+
         let pointStatusClass =
           "point-closed-status";
+
 
         if (
           employee.pointStatus ===
@@ -838,11 +971,6 @@ async function loadEmployees() {
 
         }
 
-
-
-        // ========================================
-        // LINHA DO FUNCIONÁRIO
-        // ========================================
 
         row.innerHTML = `
 
@@ -915,13 +1043,13 @@ async function loadEmployees() {
 
         `;
 
+
         employeesTable.appendChild(
           row
         );
 
       }
     );
-
 
 
   } catch (error) {
@@ -936,10 +1064,7 @@ async function loadEmployees() {
 }
 
 
-
-// Carregar funcionários
 loadEmployees();
-
 
 
 // ========================================
@@ -950,12 +1075,11 @@ const API_URL =
   "https://portal-hospital-aurora.gtmiguel278.workers.dev";
 
 
-
-// Dados do usuário
 const clockUrlParams =
   new URLSearchParams(
     window.location.search
   );
+
 
 const discordId =
   clockUrlParams.get("discord_id");
@@ -970,7 +1094,6 @@ const loggedRole =
   clockUrlParams.get("role");
 
 
-
 // ========================================
 // ELEMENTOS DOS BOTÕES
 // ========================================
@@ -980,21 +1103,23 @@ const clockInButton =
     "clockInButton"
   );
 
+
 const breakStartButton =
   document.getElementById(
     "breakStartButton"
   );
+
 
 const breakEndButton =
   document.getElementById(
     "breakEndButton"
   );
 
+
 const clockOutButton =
   document.getElementById(
     "clockOutButton"
   );
-
 
 
 // ========================================
@@ -1009,19 +1134,458 @@ function formatWorkedTime(minutes) {
       Math.floor(minutes)
     );
 
+
   const hours =
     Math.floor(
       safe / 60
     );
 
+
   const mins =
     safe % 60;
+
 
   return `${hours}h ${String(
     mins
   ).padStart(2, "0")}min`;
+
 }
 
+
+// ======================================================
+// 🔔 SISTEMA DE NOTIFICAÇÃO DE PONTO
+// ======================================================
+
+const POINT_REMINDER_INTERVAL =
+  30 * 60 * 1000;
+
+
+// Controle local do tempo ativo
+let reminderActiveStart =
+  localStorage.getItem(
+    "auroraReminderActiveStart"
+  );
+
+let reminderAccumulated =
+  parseInt(
+    localStorage.getItem(
+      "auroraReminderAccumulated"
+    ) || "0",
+    10
+  );
+
+
+// ========================================
+// SOM DA NOTIFICAÇÃO
+// ========================================
+
+function playPointReminderSound() {
+
+  try {
+
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+
+    if (!AudioContext) {
+      return;
+    }
+
+
+    const audioContext =
+      new AudioContext();
+
+
+    const oscillator =
+      audioContext.createOscillator();
+
+
+    const gain =
+      audioContext.createGain();
+
+
+    oscillator.type =
+      "sine";
+
+
+    oscillator.frequency.setValueAtTime(
+      880,
+      audioContext.currentTime
+    );
+
+
+    oscillator.frequency.setValueAtTime(
+      660,
+      audioContext.currentTime + 0.15
+    );
+
+
+    gain.gain.setValueAtTime(
+      0.0001,
+      audioContext.currentTime
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.18,
+      audioContext.currentTime + 0.02
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      audioContext.currentTime + 0.45
+    );
+
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+
+    oscillator.start();
+
+
+    oscillator.stop(
+      audioContext.currentTime + 0.45
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao reproduzir som da notificação:",
+      error
+    );
+
+  }
+
+}
+
+
+// ========================================
+// CRIAR NOTIFICAÇÃO NO SITE
+// ========================================
+
+function showPointReminderNotification() {
+
+  const oldNotification =
+    document.getElementById(
+      "auroraPointNotification"
+    );
+
+
+  if (oldNotification) {
+
+    oldNotification.remove();
+
+  }
+
+
+  const notification =
+    document.createElement(
+      "div"
+    );
+
+
+  notification.id =
+    "auroraPointNotification";
+
+
+  notification.innerHTML = `
+
+    <div class="aurora-notification-icon">
+      🔔
+    </div>
+
+    <div class="aurora-notification-content">
+
+      <strong>
+        Lembrete de Ponto
+      </strong>
+
+      <span>
+        Seu ponto está aberto há 30 minutos.
+      </span>
+
+      <small>
+        Caso esteja em atividade, continue normalmente.
+        Ao finalizar, não esqueça de encerrar seu ponto.
+      </small>
+
+    </div>
+
+    <button
+      type="button"
+      class="aurora-notification-close"
+      aria-label="Fechar"
+    >
+      ×
+    </button>
+
+  `;
+
+
+  document.body.appendChild(
+    notification
+  );
+
+
+  const closeButton =
+    notification.querySelector(
+      ".aurora-notification-close"
+    );
+
+
+  if (closeButton) {
+
+    closeButton.addEventListener(
+      "click",
+      () => {
+
+        notification.classList.add(
+          "aurora-notification-hide"
+        );
+
+
+        setTimeout(
+          () => notification.remove(),
+          300
+        );
+
+      }
+    );
+
+  }
+
+
+  requestAnimationFrame(
+    () => {
+
+      notification.classList.add(
+        "aurora-notification-show"
+      );
+
+    }
+  );
+
+
+  playPointReminderSound();
+
+
+  setTimeout(
+    () => {
+
+      if (
+        notification &&
+        notification.parentNode
+      ) {
+
+        notification.classList.add(
+          "aurora-notification-hide"
+        );
+
+
+        setTimeout(
+          () => {
+
+            if (
+              notification &&
+              notification.parentNode
+            ) {
+
+              notification.remove();
+
+            }
+
+          },
+          300
+        );
+
+      }
+
+    },
+    10000
+  );
+
+}
+
+
+// ========================================
+// SALVAR CONTROLE DA NOTIFICAÇÃO
+// ========================================
+
+function saveReminderState() {
+
+  localStorage.setItem(
+    "auroraReminderAccumulated",
+    String(reminderAccumulated)
+  );
+
+
+  if (reminderActiveStart) {
+
+    localStorage.setItem(
+      "auroraReminderActiveStart",
+      reminderActiveStart
+    );
+
+  } else {
+
+    localStorage.removeItem(
+      "auroraReminderActiveStart"
+    );
+
+  }
+
+}
+
+
+// ========================================
+// LIMPAR CONTROLE DA NOTIFICAÇÃO
+// ========================================
+
+function clearReminderState() {
+
+  reminderActiveStart =
+    null;
+
+
+  reminderAccumulated =
+    0;
+
+
+  localStorage.removeItem(
+    "auroraReminderActiveStart"
+  );
+
+
+  localStorage.removeItem(
+    "auroraReminderAccumulated"
+  );
+
+}
+
+
+// ========================================
+// INICIAR CONTAGEM DA NOTIFICAÇÃO
+// ========================================
+
+function startReminderTimer() {
+
+  reminderActiveStart =
+    String(Date.now());
+
+
+  saveReminderState();
+
+}
+
+
+// ========================================
+// REGISTRAR PAUSA
+// ========================================
+
+function pauseReminderTimer() {
+
+  if (reminderActiveStart) {
+
+    const elapsed =
+      Date.now() -
+      Number(reminderActiveStart);
+
+
+    reminderAccumulated +=
+      Math.max(
+        0,
+        elapsed
+      );
+
+  }
+
+
+  reminderActiveStart =
+    null;
+
+
+  saveReminderState();
+
+}
+
+
+// ========================================
+// RETOMAR CONTAGEM
+// ========================================
+
+function resumeReminderTimer() {
+
+  reminderActiveStart =
+    String(Date.now());
+
+
+  saveReminderState();
+
+}
+
+
+// ========================================
+// VERIFICAR NOTIFICAÇÃO
+// ========================================
+
+function checkPointReminder(status) {
+
+  if (
+    status !== "active"
+  ) {
+
+    return;
+
+  }
+
+
+  if (!reminderActiveStart) {
+
+    startReminderTimer();
+
+  }
+
+
+  let activeMilliseconds =
+    reminderAccumulated;
+
+
+  if (reminderActiveStart) {
+
+    activeMilliseconds +=
+      Date.now() -
+      Number(reminderActiveStart);
+
+  }
+
+
+  if (
+    activeMilliseconds >=
+    POINT_REMINDER_INTERVAL
+  ) {
+
+    showPointReminderNotification();
+
+
+    // Começa uma nova contagem
+    // de 30 minutos
+    reminderAccumulated =
+      0;
+
+
+    reminderActiveStart =
+      String(Date.now());
+
+
+    saveReminderState();
+
+  }
+
+}
 
 
 // ========================================
@@ -1031,18 +1595,25 @@ function formatWorkedTime(minutes) {
 async function updateMyHours() {
 
   if (!discordId) {
+
     return;
+
   }
+
 
   try {
 
     const response =
       await fetch(
-        `${API_URL}/my-hours?discord_id=${encodeURIComponent(discordId)}`
+        `${API_URL}/my-hours?discord_id=${encodeURIComponent(
+          discordId
+        )}`
       );
+
 
     const data =
       await response.json();
+
 
     if (!response.ok) {
 
@@ -1051,8 +1622,12 @@ async function updateMyHours() {
       );
 
       return;
+
     }
 
+
+    workedMinutes =
+      data.minutes || 0;
 
 
     const percentage =
@@ -1062,42 +1637,46 @@ async function updateMyHours() {
       );
 
 
-
     const hoursValue =
       document.getElementById(
         "hoursValue"
       );
+
 
     const statHours =
       document.getElementById(
         "statHours"
       );
 
+
     const statRemaining =
       document.getElementById(
         "statRemaining"
       );
+
 
     const progressBar =
       document.getElementById(
         "progressBar"
       );
 
+
     const progressText =
       document.getElementById(
         "progressText"
       );
+
 
     const remainingText =
       document.getElementById(
         "remainingText"
       );
 
+
     const statusBox =
       document.getElementById(
         "statusBox"
       );
-
 
 
     // ========================================
@@ -1113,6 +1692,7 @@ async function updateMyHours() {
 
     }
 
+
     if (statHours) {
 
       statHours.textContent =
@@ -1121,6 +1701,7 @@ async function updateMyHours() {
         );
 
     }
+
 
     if (statRemaining) {
 
@@ -1131,6 +1712,7 @@ async function updateMyHours() {
 
     }
 
+
     if (progressBar) {
 
       progressBar.style.width =
@@ -1138,12 +1720,14 @@ async function updateMyHours() {
 
     }
 
+
     if (progressText) {
 
       progressText.textContent =
         `${Math.floor(percentage)}% concluído`;
 
     }
+
 
     if (remainingText) {
 
@@ -1155,7 +1739,6 @@ async function updateMyHours() {
             )}`;
 
     }
-
 
 
     // ========================================
@@ -1209,6 +1792,30 @@ async function updateMyHours() {
     }
 
 
+    // ========================================
+    // VERIFICAR LEMBRETE
+    // ========================================
+
+    if (
+      data.status === "active"
+    ) {
+
+      checkPointReminder(
+        "active"
+      );
+
+    } else if (
+      data.status === "paused"
+    ) {
+
+      // Não faz nada durante a pausa
+
+    } else {
+
+      clearReminderState();
+
+    }
+
 
     // ========================================
     // BOTÕES
@@ -1223,6 +1830,7 @@ async function updateMyHours() {
 
     }
 
+
     if (breakStartButton) {
 
       breakStartButton.style.display =
@@ -1232,6 +1840,7 @@ async function updateMyHours() {
 
     }
 
+
     if (breakEndButton) {
 
       breakEndButton.style.display =
@@ -1240,6 +1849,7 @@ async function updateMyHours() {
           : "none";
 
     }
+
 
     if (clockOutButton) {
 
@@ -1251,6 +1861,7 @@ async function updateMyHours() {
 
     }
 
+
   } catch (error) {
 
     console.error(
@@ -1261,7 +1872,6 @@ async function updateMyHours() {
   }
 
 }
-
 
 
 // ========================================
@@ -1281,7 +1891,9 @@ if (clockInButton) {
         );
 
         return;
+
       }
+
 
       try {
 
@@ -1297,6 +1909,7 @@ if (clockInButton) {
               },
 
               body: JSON.stringify({
+
                 discord_id:
                   discordId,
 
@@ -1308,12 +1921,16 @@ if (clockInButton) {
 
                 role:
                   loggedRole
+
               })
+
             }
           );
 
+
         const data =
           await response.json();
+
 
         if (!response.ok) {
 
@@ -1322,12 +1939,22 @@ if (clockInButton) {
           );
 
           return;
+
         }
+
+
+        // Inicia o contador da notificação
+        reminderAccumulated =
+          0;
+
+        startReminderTimer();
+
 
         await updateMyHours();
 
-        // Atualizar Gestão
+
         await loadEmployees();
+
 
       } catch (error) {
 
@@ -1345,7 +1972,6 @@ if (clockInButton) {
   );
 
 }
-
 
 
 // ========================================
@@ -1372,14 +1998,19 @@ if (breakStartButton) {
               },
 
               body: JSON.stringify({
+
                 discord_id:
                   discordId
+
               })
+
             }
           );
 
+
         const data =
           await response.json();
+
 
         if (!response.ok) {
 
@@ -1388,11 +2019,19 @@ if (breakStartButton) {
           );
 
           return;
+
         }
+
+
+        // Para a contagem enquanto estiver em pausa
+        pauseReminderTimer();
+
 
         await updateMyHours();
 
+
         await loadEmployees();
+
 
       } catch (error) {
 
@@ -1410,7 +2049,6 @@ if (breakStartButton) {
   );
 
 }
-
 
 
 // ========================================
@@ -1437,14 +2075,19 @@ if (breakEndButton) {
               },
 
               body: JSON.stringify({
+
                 discord_id:
                   discordId
+
               })
+
             }
           );
 
+
         const data =
           await response.json();
+
 
         if (!response.ok) {
 
@@ -1453,11 +2096,19 @@ if (breakEndButton) {
           );
 
           return;
+
         }
+
+
+        // Retoma a contagem
+        resumeReminderTimer();
+
 
         await updateMyHours();
 
+
         await loadEmployees();
+
 
       } catch (error) {
 
@@ -1475,7 +2126,6 @@ if (breakEndButton) {
   );
 
 }
-
 
 
 // ========================================
@@ -1502,14 +2152,19 @@ if (clockOutButton) {
               },
 
               body: JSON.stringify({
+
                 discord_id:
                   discordId
+
               })
+
             }
           );
 
+
         const data =
           await response.json();
+
 
         if (!response.ok) {
 
@@ -1518,11 +2173,19 @@ if (clockOutButton) {
           );
 
           return;
+
         }
+
+
+        // Para completamente os lembretes
+        clearReminderState();
+
 
         await updateMyHours();
 
+
         await loadEmployees();
+
 
       } catch (error) {
 
@@ -1542,18 +2205,17 @@ if (clockOutButton) {
 }
 
 
-
 // ========================================
 // INICIAR SISTEMA
 // ========================================
 
 updateMyHours();
 
+
 setInterval(
   updateMyHours,
   30000
 );
-
 
 
 // ========================================
@@ -1563,6 +2225,7 @@ setInterval(
 const WEEKLY_RANKING_API =
   "https://portal-hospital-aurora.gtmiguel278.workers.dev/weekly-ranking";
 
+
 function formatRankingTime(minutes) {
 
   const hours =
@@ -1570,13 +2233,17 @@ function formatRankingTime(minutes) {
       minutes / 60
     );
 
+
   const remainingMinutes =
     minutes % 60;
+
 
   return `${hours}h ${String(
     remainingMinutes
   ).padStart(2, "0")}min`;
+
 }
+
 
 async function loadWeeklyRanking() {
 
@@ -1587,6 +2254,7 @@ async function loadWeeklyRanking() {
         WEEKLY_RANKING_API
       );
 
+
     if (!response.ok) {
 
       throw new Error(
@@ -1595,51 +2263,50 @@ async function loadWeeklyRanking() {
 
     }
 
+
     const data =
       await response.json();
+
 
     const ranking =
       data.ranking || [];
 
-
-
-    // ========================================
-    // ELEMENTOS DO TOP 3
-    // ========================================
 
     const firstName =
       document.getElementById(
         "firstPlaceName"
       );
 
+
     const firstHours =
       document.getElementById(
         "firstPlaceHours"
       );
+
 
     const secondName =
       document.getElementById(
         "secondPlaceName"
       );
 
+
     const secondHours =
       document.getElementById(
         "secondPlaceHours"
       );
+
 
     const thirdName =
       document.getElementById(
         "thirdPlaceName"
       );
 
+
     const thirdHours =
       document.getElementById(
         "thirdPlaceHours"
       );
 
-
-
-    // 1º Lugar
 
     if (
       ranking[0] &&
@@ -1650,6 +2317,7 @@ async function loadWeeklyRanking() {
       firstName.textContent =
         ranking[0].name;
 
+
       firstHours.textContent =
         formatRankingTime(
           ranking[0].minutes
@@ -1657,9 +2325,6 @@ async function loadWeeklyRanking() {
 
     }
 
-
-
-    // 2º Lugar
 
     if (
       ranking[1] &&
@@ -1670,6 +2335,7 @@ async function loadWeeklyRanking() {
       secondName.textContent =
         ranking[1].name;
 
+
       secondHours.textContent =
         formatRankingTime(
           ranking[1].minutes
@@ -1677,9 +2343,6 @@ async function loadWeeklyRanking() {
 
     }
 
-
-
-    // 3º Lugar
 
     if (
       ranking[2] &&
@@ -1690,12 +2353,14 @@ async function loadWeeklyRanking() {
       thirdName.textContent =
         ranking[2].name;
 
+
       thirdHours.textContent =
         formatRankingTime(
           ranking[2].minutes
         );
 
     }
+
 
   } catch (error) {
 
@@ -1709,20 +2374,13 @@ async function loadWeeklyRanking() {
 }
 
 
-
-// Carregar TOP SEMANAL
-
 loadWeeklyRanking();
 
-
-
-// Atualizar ranking a cada 30 segundos
 
 setInterval(
   loadWeeklyRanking,
   30000
 );
-
 
 
 // ========================================
@@ -1734,10 +2392,12 @@ const themeToggle =
     "themeToggle"
   );
 
+
 const savedTheme =
   localStorage.getItem(
     "hospitalAuroraTheme"
   );
+
 
 if (
   savedTheme ===
@@ -1750,6 +2410,7 @@ if (
 
 }
 
+
 if (themeToggle) {
 
   themeToggle.addEventListener(
@@ -1760,10 +2421,12 @@ if (themeToggle) {
         "dark-mode"
       );
 
+
       const isDark =
         document.body.classList.contains(
           "dark-mode"
         );
+
 
       localStorage.setItem(
         "hospitalAuroraTheme",
