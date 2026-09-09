@@ -1157,7 +1157,7 @@ function formatWorkedTime(minutes) {
 // ======================================================
 
 const POINT_REMINDER_INTERVAL =
-  10 * 1000;
+  30 * 60 * 1000;
 
 
 // Controle local do tempo ativo
