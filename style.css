@@ -1604,3 +1604,131 @@ body.dark-mode .aurora-notification-close {
   }
 
 }
+
+/* ========================================
+   🌙 CORREÇÕES DO MODO ESCURO
+   ======================================== */
+
+/* ---------- TELA INICIAL ---------- */
+
+body.dark-mode .landing-card {
+  background: #111827;
+  border-color: #374151;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.45);
+}
+
+body.dark-mode .hero-content h1 {
+  color: #f9fafb;
+}
+
+body.dark-mode .hero-content > p {
+  color: #9ca3af;
+}
+
+body.dark-mode .hospital-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .hospital-card strong {
+  color: #f9fafb;
+}
+
+body.dark-mode .hospital-card span {
+  color: #9ca3af;
+}
+
+body.dark-mode .hospital-icon {
+  background: #27345a;
+}
+
+body.dark-mode .north .hospital-icon {
+  background: #3a2b20;
+}
+
+body.dark-mode .login-note {
+  color: #9ca3af;
+}
+
+
+/* ---------- TOP SEMANAL ---------- */
+
+body.dark-mode .podium-card {
+  background: #1f2937;
+  border-color: #374151;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .podium-name {
+  color: #f9fafb;
+}
+
+body.dark-mode .podium-hours {
+  color: #93a8ff;
+}
+
+body.dark-mode .podium-card small {
+  color: #9ca3af;
+}
+
+
+/* ---------- TABELA DE FUNCIONÁRIOS ---------- */
+
+body.dark-mode .employees-table-container {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .employees-table-header {
+  border-bottom-color: #374151;
+}
+
+body.dark-mode .employee-header {
+  background: #111827;
+  color: #9ca3af;
+}
+
+body.dark-mode .employee-data {
+  border-top-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark-mode .employee-data:hover {
+  background: #273449;
+}
+
+body.dark-mode .employee-name strong {
+  color: #f9fafb;
+}
+
+
+/* ---------- FILTROS ---------- */
+
+body.dark-mode .management-controls {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .management-controls input,
+body.dark-mode .management-controls select {
+  background: #111827;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+body.dark-mode .management-controls input::placeholder {
+  color: #6b7280;
+}
+
+
+/* ---------- BADGES ---------- */
+
+body.dark-mode .capital-badge {
+  background: #27345a;
+  color: #93a8ff;
+}
+
+body.dark-mode .north-badge {
+  background: #3a2b20;
+  color: #ffb46b;
+}
