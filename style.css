@@ -1398,3 +1398,39 @@ body.dark-mode input::placeholder {
   }
 
 }
+
+/* ========================================
+   STATUS DO PONTO - GESTÃO
+======================================== */
+
+.point-status {
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.point-open-status {
+  color: #16a34a;
+}
+
+.point-paused-status {
+  color: #ca8a04;
+}
+
+.point-closed-status {
+  color: #6b7280;
+}
+
+/* MODO ESCURO */
+
+body.dark-mode .point-open-status {
+  color: #4ade80;
+}
+
+body.dark-mode .point-paused-status {
+  color: #facc15;
+}
+
+body.dark-mode .point-closed-status {
+  color: #9ca3af;
+}
