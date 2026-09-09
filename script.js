@@ -1228,7 +1228,7 @@ function playPointReminderSound() {
 
 
     gain.gain.exponentialRampToValueAtTime(
-      0.18,
+      0.30,
       audioContext.currentTime + 0.02
     );
 
